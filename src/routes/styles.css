@@ -29,14 +29,14 @@ body {
 		),
 		linear-gradient(180deg, var(--color-bg-0) 0%, var(--color-bg-1) 15%, var(--color-bg-2) 50%);
 }
-
+/* 
 html,
 body {
 	font-family: 'Trebuchet MS', Roboto, Ubuntu, sans-serif;
 	background: #f9fafb;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-}
+} */
 
 h1,
 h2,
