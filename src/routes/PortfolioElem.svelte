@@ -2,12 +2,17 @@
 	export let value: string;
 	export let gainValue: string;
 	export let gainPerc: string;
+	export let profit: boolean;
 </script>
 
 <div class="wrapper">
 	<span class="title">Portfolio</span>
 	<span class="value">{value}</span>
-	<span class="gain">{gainValue} ({gainPerc})</span>
+	<span
+		class="gain"
+		style="--portfolio-gain-color:{profit ? 'var(--color-pos)' : 'var(--color-neg)'}"
+		>{gainValue} ({gainPerc})</span
+	>
 </div>
 
 <style>
@@ -29,6 +34,6 @@
 		font-size: 0.75rem;
 		font-weight: 600;
 		margin: 0rem;
-		color: var(--color-pos);
+		color: var(--portfolio-gain-color);
 	}
 </style>

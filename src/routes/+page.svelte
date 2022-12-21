@@ -9,11 +9,14 @@
 	const newestEntry = data.data[data.data.length - 1];
 	const oldestEntry = data.data[0];
 	let oldestCapital = oldestEntry.inventory_value;
+	let newestCapital = newestEntry.inventory_value;
 	let currCapital = newestEntry.inventory_value;
 
 	function onCrosshairMove(price: number, time: number) {
 		if (price) {
 			currCapital = price;
+		} else {
+			currCapital = newestCapital;
 		}
 	}
 
@@ -30,7 +33,8 @@
 		const fromEntry = findClosestEntry(from);
 		const toEntry = findClosestEntry(to);
 		if (toEntry) {
-			currCapital = toEntry.inventory_value;
+			newestCapital = toEntry.inventory_value;
+			currCapital = newestCapital;
 		}
 		if (fromEntry) {
 			oldestCapital = fromEntry.inventory_value;
@@ -47,9 +51,15 @@
 	<PortfolioElem
 		value={`${priceToStr(currCapital)} ¥`}
 		gainValue={`${priceToStr(Math.abs(oldestCapital - currCapital))}¥`}
-		gainPerc={`${Math.round(Math.abs((currCapital/oldestCapital-1)*100)*100)/100}%`}
+		gainPerc={`${Math.round(Math.abs((currCapital / oldestCapital - 1) * 100) * 100) / 100}%`}
+		profit={currCapital > oldestCapital}
 	/>
-	<PriceChart {data} {onCrosshairMove} {onTimeScaleChanged} />
+	<PriceChart
+		{data}
+		{onCrosshairMove}
+		{onTimeScaleChanged}
+		profit={newestCapital > oldestCapital}
+	/>
 </section>
 
 <style>

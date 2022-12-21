@@ -4,7 +4,8 @@
 	--font-body: 'Trebuchet MS', Roboto, Ubuntu, sans-serif;
 	--color-bg-0: #121212;
 	--color-text: #ffffff;
-	--color-pos: rgba(255, 82, 82, 1);
+	--color-neg: rgba(255, 82, 82, 1);
+	--color-pos: rgba(19, 255, 128, 0.8);
 	font-family: var(--font-body);
 	color: var(--color-text);
 	background: var(----color-bg-0);

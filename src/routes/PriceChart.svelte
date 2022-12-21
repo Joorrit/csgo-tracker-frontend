@@ -1,19 +1,22 @@
 <script lang="ts">
-	import { createChart, isBusinessDay, type UTCTimestamp } from 'lightweight-charts';
-	import { onMount } from 'svelte';
+	import { createChart, type UTCTimestamp } from 'lightweight-charts';
+	import { onMount, afterUpdate } from 'svelte';
 
 	import type { PageData } from './$types';
+	import { addLeadinZero } from './utils';
 
 	export let data: PageData;
 	export let onCrosshairMove: any;
 	export let onTimeScaleChanged: any;
+	export let profit: boolean;
 
+	let lineSeries: any;
 	onMount(() => {
 		const container: any = document.getElementById('price-chart');
 		var width = window.innerWidth * 0.5;
 		var height = window.innerHeight * 0.5;
 
-		var chart = createChart(container, {
+		const chart = createChart(container, {
 			width: width,
 			height: height,
 			rightPriceScale: {
@@ -58,22 +61,13 @@
 			timeScale: {
 				tickMarkFormatter: (time: any) => {
 					const date = new Date(time * 1000);
-					// return `${date.getDate()}.${
-					// 	date.getMonth() + 1
-					// } - ${date.getHours()}:${date.getMinutes()}`;
-					return `${date.getHours()}:${date.getMinutes()}`;
+					return `${date.getHours()}:${addLeadinZero(date.getMinutes())}`;
 				}
 			},
 			rightPriceScale: {}
 		});
 
-		var areaSeries = chart.addAreaSeries({
-			topColor: 'rgba(0, 0, 0, 0)',
-			bottomColor: 'rgba(0, 0, 0, 0)',
-			lineColor: 'rgba(255, 82, 82, 1)',
-			lineWidth: 2
-			// symbol: 'AAPL',
-		});
+		lineSeries = chart.addLineSeries();
 
 		const setData = data.data.map((item) => {
 			const unixTimestamp = (new Date(item.timestamp).getTime() / 1000) as UTCTimestamp;
@@ -83,12 +77,16 @@
 			};
 		});
 
-		areaSeries.setData(setData);
+		lineSeries.setData(setData);
+
+		lineSeries.applyOptions({
+			color: 'red'
+		});
 
 		chart.timeScale().fitContent();
 
 		chart.subscribeCrosshairMove(function (param: any) {
-			const price = param.seriesPrices.get(areaSeries);
+			const price = param.seriesPrices.get(lineSeries);
 			const time = param.time;
 			onCrosshairMove(price, time);
 		});
@@ -97,6 +95,12 @@
 			const from = param.from;
 			const to = param.to;
 			onTimeScaleChanged(from, to);
+		});
+	});
+
+	afterUpdate(() => {
+		lineSeries.applyOptions({
+			color: profit ? 'rgba(19, 255, 128, 0.8)' : 'rgba(255, 19, 19, 0.8)'
 		});
 	});
 </script>
