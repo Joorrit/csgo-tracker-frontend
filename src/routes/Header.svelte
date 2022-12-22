@@ -32,7 +32,6 @@
 
 	nav {
 		display: flex;
-		flex: 1;
 		justify-content: space-between;
 		min-width: 80%;
 		max-width: 90%;
@@ -42,6 +41,12 @@
 		-moz-box-sizing: border-box;
 		box-sizing: border-box;
 		height: var(--header-height);
+	}
+
+	@media only screen and (max-width: 1200px) {
+		nav {
+			flex: 1;
+		}
 	}
 
 	.title {
