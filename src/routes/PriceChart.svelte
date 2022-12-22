@@ -103,6 +103,8 @@
 			const to = param.to;
 			onTimeScaleChanged(from, to);
 		});
+
+		sizeChart();
 	});
 
 	afterUpdate(() => {
@@ -111,16 +113,20 @@
 		});
 	});
 
+	function sizeChart() {
+		const wrapper = document.getElementById('table-wrapper');
+		const width = wrapper?.offsetWidth;
+		// const height = wrapper?.offsetHeight;
+		if (width && height) {
+			chart.resize(width, height);
+		}
+	}
+
 	var timerID: any = null;
 	window.addEventListener('resize', () => {
 		if (timerID) clearTimeout(timerID);
 		timerID = setTimeout(function () {
-			const wrapper = document.getElementById('table-wrapper');
-			const width = wrapper?.offsetWidth;
-			// const height = wrapper?.offsetHeight;
-			if (width && height) {
-				chart.resize(width, height);
-			}
+			sizeChart();
 		}, 10);
 	});
 

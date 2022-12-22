@@ -139,13 +139,17 @@
 
 <style>
 	.wrapper {
-		display: grid;
-		grid-template-rows: auto auto 1fr;
+		display: flex;
 		justify-content: space-between;
-		height: auto;
+		/* height: auto; */
+	}
+	@media only screen and (max-width: 1200px) {
+		.wrapper {
+			flex-direction: column;
+			height: 100%;
+		}
 	}
 	.table-wrapper {
-		grid-row: 2;
 		overflow: hidden;
 		margin-top: var(--main-padding-top);
 	}
