@@ -23,6 +23,14 @@
 		height: calc(100vh - var(--header-height));
 		overflow-y: auto;
 	}
+
+	@media only screen and (max-width: 1200px) {
+		.wrapper {
+			height: auto;
+			overflow-y: auto;
+		}
+	}
+
 	.wrapper::-webkit-scrollbar {
 		width: 10px;
 	}

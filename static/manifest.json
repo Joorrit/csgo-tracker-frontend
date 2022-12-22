@@ -1,0 +1,18 @@
+{
+	"short_name": "CS:GO Capital",
+	"name": "CS:GO Capital",
+	"start_url": "/",
+	"icons": [
+		{
+			"src": "logo_512.png",
+			"type": "image/png",
+			"sizes": "512x512"
+		}
+	],
+	"background_color": "#00AEFF",
+	"display": "standalone",
+	"scope": "/",
+	"theme_color": "#121212",
+	"shortcuts": [],
+	"description": "CS:GO Portfolio Manager."
+}

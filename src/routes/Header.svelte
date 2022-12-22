@@ -32,11 +32,12 @@
 
 	nav {
 		display: flex;
+		flex: 1;
 		justify-content: space-between;
 		min-width: 80%;
 		max-width: 90%;
 		margin: 0 auto;
-		padding: 1rem;
+		padding: 1rem 0;
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
 		box-sizing: border-box;

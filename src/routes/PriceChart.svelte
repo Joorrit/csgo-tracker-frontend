@@ -35,7 +35,8 @@
 				visible: false
 			},
 			timeScale: {
-				borderVisible: false
+				borderVisible: false,
+				
 			},
 			layout: {
 				backgroundColor: '#121212',
