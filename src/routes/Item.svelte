@@ -1,16 +1,17 @@
 <script lang="ts">
 	export let name: string;
 	export let icon_url: string;
+	export let item_id: string;
 </script>
 
-<div class="item-wrapper">
+<a href={`/items/${item_id}`} class="item-wrapper">
 	<div class="item-icon-wrapper">
 		<img src={icon_url} alt={name} class="item-icon" />
 	</div>
 	<div>
 		{name}
 	</div>
-</div>
+</a>
 
 <style>
 	.item-wrapper {
@@ -18,6 +19,7 @@
 		align-items: center;
 		padding: 0.4rem 0;
 		font-size: 0.9rem;
+		text-decoration: none;
 	}
 	.item-icon-wrapper {
 		background-color: #f8fafd1a;

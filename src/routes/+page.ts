@@ -15,7 +15,7 @@ type InventoryValueHistoryRes = {
 	data: InventoryValueHistory;
 };
 
-type ItemEntry = {
+export type ItemEntry = {
 	icon_url: string;
 	item_id: string;
 	name: string;

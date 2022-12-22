@@ -1,41 +1,41 @@
 <script lang="ts">
-	import type { PageData } from './$types';
-	import type { InventoryValueHistory, Items } from './+page';
-	import DurationSelectorWrapper from './DurationSelectorWrapper.svelte';
-	import Invenstments from './Invenstments.svelte';
-	import PortfolioElem from './PortfolioElem.svelte';
-	import PriceChart from './PriceChart.svelte';
-	import { convCurr, priceToStr } from './utils';
-	import { currency } from './stores';
+	import type { PageData } from '../../$types';
+	import DurationSelectorWrapper from '../../DurationSelectorWrapper.svelte';
+	import PortfolioElem from '../../PortfolioElem.svelte';
+	import PriceChart from '../../PriceChart.svelte';
+	import { convCurr, priceToStr } from '../../utils';
+	import { currency } from '../../stores';
 	import type { UTCTimestamp } from 'lightweight-charts';
+	import type { ItemPrice, ItemPriceHistory } from './+page';
+	import type { ItemEntry } from 'src/routes/+page';
 	$: $currency, convAllCurr();
 
 	function convAllCurr() {
-		oldestCapital = convCurr(oldestEntry.inventory_value, $currency);
-		newestCapital = convCurr(newestEntry.inventory_value, $currency);
-		currCapital = convCurr(newestEntry.inventory_value, $currency);
+		oldestCapital = convCurr(oldestEntry.price, $currency);
+		newestCapital = convCurr(newestEntry.price, $currency);
+		currCapital = convCurr(newestEntry.price, $currency);
 	}
 
-	export let data: PageData;
+	export let data: any;
 
 	let chart: any;
 	let selectedDurationIndex = 5;
 
-	const inventoryValueData: InventoryValueHistory = data.inventoryValue.data;
-	const chartData = inventoryValueData.map((item: any) => {
+	const itemData: ItemEntry = data.item;
+	const itemPriceHistoryData: ItemPriceHistory = data.itemPriceHistory.data;
+	const chartData = itemPriceHistoryData.map((item: ItemPrice) => {
 		const unixTimestamp = (new Date(item.timestamp).getTime() / 1000) as UTCTimestamp;
 		return {
 			time: unixTimestamp,
-			value: item.inventory_value
+			value: item.price
 		};
 	});
 
-	const itemsData: Items = data.items.data;
-	const newestEntry = inventoryValueData[inventoryValueData.length - 1];
-	const oldestEntry = inventoryValueData[0];
-	let oldestCapital = oldestEntry.inventory_value;
-	let newestCapital = newestEntry.inventory_value;
-	let currCapital = newestEntry.inventory_value;
+	const newestEntry = itemPriceHistoryData[itemPriceHistoryData.length - 1];
+	const oldestEntry = itemPriceHistoryData[0];
+	let oldestCapital = oldestEntry.price;
+	let newestCapital = newestEntry.price;
+	let currCapital = newestEntry.price;
 
 	function onCrosshairMove(price: number, time: number) {
 		if (price !== null && price !== undefined) {
@@ -46,7 +46,7 @@
 	}
 
 	function findClosestEntry(time: number) {
-		const closestEntry = inventoryValueData.reduce((prev, curr) => {
+		const closestEntry = itemPriceHistoryData.reduce((prev: any, curr: any) => {
 			const absPrev = Math.abs(new Date(prev.timestamp).getTime() - time * 1000);
 			const absCurr = Math.abs(new Date(curr.timestamp).getTime() - time * 1000);
 			return absCurr < absPrev ? curr : prev;
@@ -58,11 +58,11 @@
 		const fromEntry = findClosestEntry(from);
 		const toEntry = findClosestEntry(to);
 		if (toEntry) {
-			newestCapital = convCurr(toEntry.inventory_value, $currency);
+			newestCapital = convCurr(toEntry.price, $currency);
 			currCapital = newestCapital;
 		}
 		if (fromEntry) {
-			oldestCapital = convCurr(fromEntry.inventory_value, $currency);
+			oldestCapital = convCurr(fromEntry.price, $currency);
 		}
 	}
 
@@ -103,7 +103,7 @@
 
 	function onClickMax() {
 		const now = new Date().getTime() / 1000;
-		const max = inventoryValueData[0].timestamp;
+		const max = itemPriceHistoryData[0].timestamp;
 		chart.setTimeScale(max, now);
 		selectedDurationIndex = 5;
 	}
@@ -117,7 +117,7 @@
 <div class="wrapper">
 	<div class="table-wrapper" id="table-wrapper">
 		<PortfolioElem
-			title="Portfolio"
+			title={itemData?.name}
 			value={`${priceToStr(currCapital)} ${$currency == 'euro' ? '€' : '¥'}`}
 			gainValue={`${priceToStr(Math.abs(oldestCapital - currCapital))}${
 				$currency == 'euro' ? '€' : '¥'
@@ -142,9 +142,7 @@
 			profit={newestCapital > oldestCapital}
 		/>
 	</div>
-	<div class="invenstment-wrapper">
-		<Invenstments items={itemsData} />
-	</div>
+	<div class="invenstment-wrapper" />
 </div>
 
 <style>

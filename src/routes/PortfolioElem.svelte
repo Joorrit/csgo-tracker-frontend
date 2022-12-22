@@ -1,4 +1,5 @@
 <script lang="ts">
+	export let title: string;
 	export let value: string;
 	export let gainValue: string;
 	export let gainPerc: string;
@@ -6,7 +7,7 @@
 </script>
 
 <div class="wrapper">
-	<span class="title">Portfolio</span>
+	<span class="title">{title}</span>
 	<span class="value">{value}</span>
 	<span
 		class="gain"

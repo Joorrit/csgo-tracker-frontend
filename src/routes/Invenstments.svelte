@@ -10,7 +10,7 @@
 		<span class="title">Investments</span>
 		<div>
 			{#each items as item}
-				<Item name={item.name} icon_url={item.icon_url} />
+				<Item name={item.name} icon_url={item.icon_url} item_id={item.item_id} />
 			{/each}
 		</div>
 	</div>

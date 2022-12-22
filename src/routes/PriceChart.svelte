@@ -3,14 +3,14 @@
 		createChart,
 		type IChartApi,
 		type ISeriesApi,
-		type UTCTimestamp
+		type LineData,
+		type WhitespaceData
 	} from 'lightweight-charts';
 	import { onMount, afterUpdate } from 'svelte';
-	import type { InventoryValueHistory } from './+page';
 
 	import { addLeadinZero } from './utils';
 
-	export let inventoryValueData: InventoryValueHistory;
+	export let chartData: (LineData | WhitespaceData)[];
 	export let onCrosshairMove: any;
 	export let onTimeScaleChanged: any;
 	export let profit: boolean;
@@ -35,8 +35,7 @@
 				visible: false
 			},
 			timeScale: {
-				borderVisible: false,
-				
+				borderVisible: false
 			},
 			layout: {
 				backgroundColor: '#121212',
@@ -77,15 +76,7 @@
 
 		lineSeries = chart.addLineSeries();
 
-		const setData = inventoryValueData.map((item: any) => {
-			const unixTimestamp = (new Date(item.timestamp).getTime() / 1000) as UTCTimestamp;
-			return {
-				time: unixTimestamp,
-				value: item.inventory_value
-			};
-		});
-
-		lineSeries.setData(setData);
+		lineSeries.setData(chartData);
 
 		lineSeries.applyOptions({
 			color: 'red'
