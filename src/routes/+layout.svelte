@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import Header from './Header.svelte';
 	import './styles.css';
 </script>
@@ -15,17 +15,14 @@
 	.app {
 		display: flex;
 		flex-direction: column;
-		min-height: 100vh;
+		height: 100vh;
 	}
 
 	main {
-		flex: 1;
 		min-width: 80%;
 		max-width: 90%;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
 		margin: 0 auto;
 		box-sizing: border-box;
+		margin-top: var(--header-height);
 	}
 </style>

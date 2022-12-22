@@ -1,22 +1,29 @@
 <script lang="ts">
-	import { createChart, type UTCTimestamp } from 'lightweight-charts';
+	import {
+		createChart,
+		type IChartApi,
+		type ISeriesApi,
+		type UTCTimestamp
+	} from 'lightweight-charts';
 	import { onMount, afterUpdate } from 'svelte';
+	import type { InventoryValueHistory } from './+page';
 
-	import type { PageData } from './$types';
 	import { addLeadinZero } from './utils';
 
-	export let data: PageData;
+	export let inventoryValueData: InventoryValueHistory;
 	export let onCrosshairMove: any;
 	export let onTimeScaleChanged: any;
 	export let profit: boolean;
 
-	let lineSeries: any;
+	let lineSeries: ISeriesApi<'Line'>;
+	let chart: IChartApi;
+
+	var width = window.innerWidth * 0.5;
+	var height = window.innerHeight * 0.5;
 	onMount(() => {
 		const container: any = document.getElementById('price-chart');
-		var width = window.innerWidth * 0.5;
-		var height = window.innerHeight * 0.5;
 
-		const chart = createChart(container, {
+		chart = createChart(container, {
 			width: width,
 			height: height,
 			rightPriceScale: {
@@ -69,7 +76,7 @@
 
 		lineSeries = chart.addLineSeries();
 
-		const setData = data.data.map((item) => {
+		const setData = inventoryValueData.map((item: any) => {
 			const unixTimestamp = (new Date(item.timestamp).getTime() / 1000) as UTCTimestamp;
 			return {
 				time: unixTimestamp,
@@ -103,6 +110,26 @@
 			color: profit ? 'rgba(19, 255, 128, 0.8)' : 'rgba(255, 19, 19, 0.8)'
 		});
 	});
+
+	var timerID: any = null;
+	window.addEventListener('resize', () => {
+		if (timerID) clearTimeout(timerID);
+		timerID = setTimeout(function () {
+			const wrapper = document.getElementById('table-wrapper');
+			const width = wrapper?.offsetWidth;
+			// const height = wrapper?.offsetHeight;
+			if (width && height) {
+				chart.resize(width, height);
+			}
+		}, 10);
+	});
+
+	export function setTimeScale(from: any, to: any) {
+		chart.timeScale().setVisibleRange({
+			from: from,
+			to: to
+		});
+	}
 </script>
 
 <section>
@@ -113,6 +140,6 @@
 
 <style>
 	.table-wrapper {
-		padding: 2rem;
+		margin-top: 1rem;
 	}
 </style>
