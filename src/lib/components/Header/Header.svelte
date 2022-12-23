@@ -1,15 +1,22 @@
 <script lang="ts">
-	import Switch from './Switch.svelte';
-	import { currency } from './stores';
+	import { Logo, Switch } from '$lib/components';
+	import { currency } from '$lib/functions/stores';
 
 	function onCurrencyChange() {
 		currency.update((value) => (value === 'euro' ? 'yuan' : 'euro'));
 	}
+
+	let scrolledDown: boolean = false;
+
+	addEventListener('scroll', () => {
+		const scrollPos = window.scrollY;
+		scrolledDown = scrollPos > 0;
+	});
 </script>
 
-<header>
+<header class={`${scrolledDown ? 'show-border' : ''}`}>
 	<nav>
-		<span class="title">CS:GO Capital</span>
+		<Logo />
 		<div class="currency-wrapper">
 			<span>€</span>
 			<Switch onClick={onCurrencyChange} />
@@ -28,6 +35,12 @@
 		width: 100vw;
 		z-index: 10;
 		background-color: var(--color-bg-0);
+		border-bottom: 1px solid rgba(40, 40, 40, 0);
+		transition: border 0.8s;
+	}
+
+	.show-border {
+		border-bottom: 1px solid rgba(40, 40, 40, 1);
 	}
 
 	nav {
@@ -49,16 +62,12 @@
 		}
 	}
 
-	.title {
-		font-size: 1.5rem;
-		font-weight: 600;
-	}
-
 	.currency-wrapper {
-		font-size: 1.4rem;
-	}
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.55rem;
 
-	.currency-wrapper span {
-		margin-left: 0.5rem;
+		font-size: 1.4rem;
 	}
 </style>

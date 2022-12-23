@@ -1,5 +1,5 @@
-import type { ItemEntry } from 'src/routes/types';
-import type { PageLoad } from '../../$types';
+import type { ItemEntry } from '$lib/functions/types';
+import type { PageLoad } from './$types';
 
 export const ssr = false;
 

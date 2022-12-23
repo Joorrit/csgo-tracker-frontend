@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { addLeadinZero } from '$lib/functions/utils';
 	import {
 		createChart,
 		type IChartApi,
@@ -7,8 +8,6 @@
 		type WhitespaceData
 	} from 'lightweight-charts';
 	import { onMount, afterUpdate } from 'svelte';
-
-	import { addLeadinZero } from './utils';
 
 	export let chartData: (LineData | WhitespaceData)[];
 	export let onCrosshairMove: any;
@@ -70,8 +69,7 @@
 					const date = new Date(time * 1000);
 					return `${date.getHours()}:${addLeadinZero(date.getMinutes())}`;
 				}
-			},
-			rightPriceScale: {}
+			}
 		});
 
 		lineSeries = chart.addLineSeries();
@@ -90,10 +88,42 @@
 			onCrosshairMove(price, time);
 		});
 
+		function scaleTimeScale(diff: number) {
+			if (diff < 154) {
+				// show every hour
+				chart.applyOptions({
+					timeScale: {
+						tickMarkFormatter: (time: any) => {
+							const date = new Date(time * 1000);
+							return `${date.getHours()}:${addLeadinZero(date.getMinutes())}`;
+						}
+					}
+				});
+			} else {
+				// show every day
+				chart.applyOptions({
+					timeScale: {
+						tickMarkFormatter: (time: any) => {
+							const date = new Date(time * 1000);
+							return `${date.getDate()}`;
+						}
+					}
+				});
+			}
+		}
+
 		chart.timeScale().subscribeVisibleTimeRangeChange(function (param: any) {
 			const from = param.from;
 			const to = param.to;
 			onTimeScaleChanged(from, to);
+
+			const visibleLogicalRange = chart.timeScale().getVisibleLogicalRange();
+			if (visibleLogicalRange) {
+				const totalFrom = visibleLogicalRange.from;
+				const totalTo = visibleLogicalRange.to;
+				const diff = totalTo - totalFrom;
+				scaleTimeScale(diff);
+			}
 		});
 
 		sizeChart();

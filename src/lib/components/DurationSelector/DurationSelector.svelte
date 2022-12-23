@@ -4,6 +4,7 @@
 	export let selected: boolean;
 </script>
 
+<!-- svelte-ignore a11y-click-events-have-key-events -->
 <div class={`btn${selected ? ' selected' : ''}`} on:click={onClick}>
 	{title}
 </div>

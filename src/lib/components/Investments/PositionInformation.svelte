@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { currency } from './stores';
-	import { convCurr, gainToStr, priceToStr } from './utils';
+	import { currency } from '$lib/functions/stores';
+	import { convCurr, gainToStr, priceToStr } from '$lib/functions/utils';
 
 	export let displayType: 'day-trend-perc' | 'day-trend' | 'total-trend-perc' | 'total-trend';
 	export let name: string;
@@ -30,7 +30,7 @@
 	{/if}
 	{#if displayType === 'day-trend'}
 		<div class={`gain ${current_price - prev_day_price >= 0 ? 'positive-gain' : 'negative-gain'}`}>
-			{priceToStr(convCurr(current_price - prev_day_price , $currency), $currency)}
+			{priceToStr(convCurr(current_price - prev_day_price, $currency), $currency)}
 		</div>
 	{/if}
 	{#if displayType === 'total-trend-perc'}
@@ -40,7 +40,7 @@
 	{/if}
 	{#if displayType === 'total-trend'}
 		<div class={`gain ${current_price - purchase_price >= 1 ? 'positive-gain' : 'negative-gain'}`}>
-			{priceToStr(convCurr(current_price - purchase_price , $currency), $currency)}
+			{priceToStr(convCurr(current_price - purchase_price, $currency), $currency)}
 		</div>
 	{/if}
 </a>

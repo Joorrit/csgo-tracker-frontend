@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { DropDownElement } from './types';
+	import type { DropDownElement } from '$lib/functions/types';
 
 	export let elements: Array<DropDownElement>;
 	export let selectedElement: DropDownElement;
@@ -49,7 +49,7 @@
 		-moz-user-select: none;
 		-ms-user-select: none;
 		user-select: none;
-        cursor: pointer;
+		cursor: pointer;
 	}
 
 	.modal {

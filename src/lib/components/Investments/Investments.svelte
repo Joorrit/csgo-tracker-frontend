@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { DropDownElement, PositionsInformation } from './types';
+	import type { DropDownElement, PositionsInformation } from '$lib/functions/types';
+	import { DropDown } from '$lib/components';
 	import PositionInformation from './PositionInformation.svelte';
-	import DropDown from './DropDown.svelte';
 
 	export let positionsInformation: PositionsInformation;
 	positionsInformation.sort(
