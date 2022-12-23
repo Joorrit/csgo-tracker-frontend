@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { currency } from "./stores";
-	import { convCurr, gainToStr, priceToStr } from "./utils";
-	import { Dropdown } from "carbon-components-svelte";
+	import { currency } from './stores';
+	import { convCurr, gainToStr, priceToStr } from './utils';
 
+	export let displayType: 'day-trend-perc' | 'day-trend' | 'total-trend-perc' | 'total-trend';
 	export let name: string;
 	export let icon_url: string;
 	export let item_id: string;
@@ -23,9 +23,26 @@
 			<div class="item-price">{priceToStr(convCurr(current_price, $currency), $currency)}</div>
 		</div>
 	</div>
-	<div class={`gain ${current_price/prev_day_price >= 1 ? "positive-gain":"negative-gain"}`}>
-		{gainToStr((current_price/prev_day_price-1)*100)}
-	</div>
+	{#if displayType === 'day-trend-perc'}
+		<div class={`gain ${current_price / prev_day_price >= 1 ? 'positive-gain' : 'negative-gain'}`}>
+			{gainToStr((current_price / prev_day_price - 1) * 100)}
+		</div>
+	{/if}
+	{#if displayType === 'day-trend'}
+		<div class={`gain ${current_price - prev_day_price >= 0 ? 'positive-gain' : 'negative-gain'}`}>
+			{priceToStr(convCurr(current_price - prev_day_price , $currency), $currency)}
+		</div>
+	{/if}
+	{#if displayType === 'total-trend-perc'}
+		<div class={`gain ${current_price / purchase_price >= 1 ? 'positive-gain' : 'negative-gain'}`}>
+			{gainToStr((current_price / purchase_price - 1) * 100)}
+		</div>
+	{/if}
+	{#if displayType === 'total-trend'}
+		<div class={`gain ${current_price - purchase_price >= 1 ? 'positive-gain' : 'negative-gain'}`}>
+			{priceToStr(convCurr(current_price - purchase_price , $currency), $currency)}
+		</div>
+	{/if}
 </a>
 
 <style>
@@ -68,7 +85,7 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		flex:1;
+		flex: 1;
 		gap: 0.3rem;
 		margin-right: 1rem;
 	}

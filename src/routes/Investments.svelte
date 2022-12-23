@@ -3,31 +3,26 @@
 	import PositionInformation from './PositionInformation.svelte';
 	import DropDown from './DropDown.svelte';
 
-	let dropdownTrigger;
 	export let positionsInformation: PositionsInformation;
 	positionsInformation.sort(
 		(a, b) => b.position_size * b.current_price - a.position_size * a.current_price
 	);
 
-	export let selectedElement: DropDownElement = {
-		title: 'Tagestrend (%)',
-		value: 'day-trend-perc'
-	};
+	const dropdownElements: DropDownElement[] = [
+		{ title: 'Tagestrend (%)', value: 'day-trend-perc' },
+		{ title: 'Tagestrend (€)', value: 'day-trend' },
+		{ title: 'Seit Kauf (%)', value: 'total-trend-perc' },
+		{ title: 'Seit Kauf (€)', value: 'total-trend' }
+	];
+
+	let selectedElement: any = dropdownElements[0];
 </script>
 
 <div class="wrapper">
 	<div class="investment-container">
 		<div class="title-wrapper">
 			<span class="title">Investments</span>
-			<DropDown
-				elements={[
-					{ title: 'Tagestrend (%)', value: 'day-trend-perc' },
-					{ title: 'Tagestrend (€)', value: 'day-trend' },
-					{ title: 'Seit Kauf (%)', value: 'total-trend-perc' },
-					{ title: 'Seit Kauf (€)', value: 'total-trend' }
-				]}
-				{selectedElement}
-			/>
+			<DropDown elements={dropdownElements} bind:selectedElement />
 		</div>
 		<div>
 			{#each positionsInformation as positionInformation}
@@ -39,6 +34,7 @@
 					purchase_price={positionInformation.purchase_price}
 					current_price={positionInformation.current_price}
 					prev_day_price={positionInformation.prev_day_price}
+					displayType={selectedElement.value}
 				/>
 			{/each}
 		</div>
@@ -91,11 +87,6 @@
 		padding: 1.5rem 0;
 		border-radius: 10px;
 		margin: var(--main-padding-top) 0.5rem;
-	}
-	.title-dropdown {
-		display: flex;
-		align-items: center;
-		justify-content: center;
 	}
 	.title {
 		font-weight: 600;
