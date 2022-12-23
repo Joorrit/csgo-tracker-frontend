@@ -1,31 +1,33 @@
 <script lang="ts">
-	import type { PositionsInformation } from './types';
+	import type { DropDownElement, PositionsInformation } from './types';
 	import PositionInformation from './PositionInformation.svelte';
-	import "carbon-components-svelte/css/g100.css"
-	//import { Dropdown } from "carbon-components/scss/components/dropdown/_dropdown.scss"
-	import { Dropdown } from "carbon-components-svelte";
-	//import Dropdown from 'sv-bootstrap-dropdown';
+	import DropDown from './DropDown.svelte';
 
 	let dropdownTrigger;
 	export let positionsInformation: PositionsInformation;
-	positionsInformation.sort((a, b) => b.position_size*b.current_price - a.position_size*a.current_price);
+	positionsInformation.sort(
+		(a, b) => b.position_size * b.current_price - a.position_size * a.current_price
+	);
+
+	export let selectedElement: DropDownElement = {
+		title: 'Tagestrend (%)',
+		value: 'day-trend-perc'
+	};
 </script>
 
 <div class="wrapper">
 	<div class="investment-container">
-		<div class="title-dropdown">
+		<div class="title-wrapper">
 			<span class="title">Investments</span>
-			<div>
-				<Dropdown
-					type="inline"
-					selectedId="0"
-					items={[
-						{ id: "0", text: "Slack" },
-						{ id: "1", text: "Email" },
-						{ id: "2", text: "Fax" },
-					]}
-				/>
-			</div>
+			<DropDown
+				elements={[
+					{ title: 'Tagestrend (%)', value: 'day-trend-perc' },
+					{ title: 'Tagestrend (€)', value: 'day-trend' },
+					{ title: 'Seit Kauf (%)', value: 'total-trend-perc' },
+					{ title: 'Seit Kauf (€)', value: 'total-trend' }
+				]}
+				{selectedElement}
+			/>
 		</div>
 		<div>
 			{#each positionsInformation as positionInformation}
@@ -56,6 +58,13 @@
 			height: auto;
 			overflow-y: auto;
 		}
+	}
+
+	.title-wrapper {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin: 0 1.5rem;
 	}
 
 	.wrapper::-webkit-scrollbar {
@@ -92,7 +101,5 @@
 		font-weight: 600;
 		font-size: 1.2rem;
 		margin-bottom: 1rem;
-		margin-left: 1.5rem;
-		flex:1;
 	}
 </style>

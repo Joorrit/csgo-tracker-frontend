@@ -111,7 +111,7 @@
 </script>
 
 <svelte:head>
-	<title>Home</title>
+	<title>Portfolio - CS:GO Capital</title>
 	<meta name="description" content="stonkymaker" />
 </svelte:head>
 
