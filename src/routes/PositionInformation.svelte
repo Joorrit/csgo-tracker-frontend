@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { currency } from "./stores";
 	import { convCurr, gainToStr, priceToStr } from "./utils";
+	import { Dropdown } from "carbon-components-svelte";
 
 	export let name: string;
 	export let icon_url: string;
