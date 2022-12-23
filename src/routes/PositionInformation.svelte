@@ -1,0 +1,76 @@
+<script lang="ts">
+	import { currency } from "./stores";
+	import { convCurr, gainToStr, priceToStr } from "./utils";
+
+	export let name: string;
+	export let icon_url: string;
+	export let item_id: string;
+	export let position_size: number;
+	export let purchase_price: number;
+	export let current_price: number;
+	export let prev_day_price: number;
+</script>
+
+<a href={`/items/${item_id}`} class="item-wrapper">
+	<div class="item-icon-wrapper">
+		<img src={icon_url} alt={name} class="item-icon" />
+	</div>
+	<div class="name-n-price">
+		<div>{name}</div>
+		<div class="size-n-price">
+			<div class="position-size">x{position_size}</div>
+			<div class="item-price">{priceToStr(convCurr(current_price, $currency), $currency)}</div>
+		</div>
+	</div>
+	<div class={`gain ${current_price/prev_day_price >= 1 ? "positive-gain":"negative-gain"}`}>
+		{gainToStr((current_price/prev_day_price-1)*100)}
+	</div>
+</a>
+
+<style>
+	.item-wrapper {
+		display: flex;
+		align-items: center;
+		padding: 0.4rem 0;
+		font-size: 0.9rem;
+		text-decoration: none;
+	}
+	.item-wrapper:hover {
+		background-color: #f8fafd1a;
+	}
+	.item-icon-wrapper {
+		background-color: #f9fafd1a;
+		border-radius: 50%;
+		margin-right: 0.5rem;
+	}
+	.item-icon {
+		width: 2.2rem;
+		height: 2.2rem;
+	}
+	.item-price {
+		font-size: 0.8rem;
+		font-weight: bold;
+	}
+	.size-n-price {
+		display: flex;
+		gap: 0.5rem;
+	}
+	.position-size {
+		font-size: 0.8rem;
+		background-color: #f9fafd1a;
+		padding: 0.1rem 0.25rem;
+		color: #f8fafd8f;
+	}
+	.name-n-price {
+		flex:1;
+	}
+	.gain {
+		font-size: 1rem;
+	}
+	.positive-gain {
+		color: var(--color-pos);
+	}
+	.negative-gain {
+		color: var(--color-neg);
+	}
+</style>

@@ -1,35 +1,16 @@
 import type { PageLoad } from './$types';
 import { exchangeRate } from './stores';
+import type { InventoryValueHistoryRes, ItemRes } from './types';
 
 export const ssr = false;
 
-type InventoryValueHistoryEntry = {
-	inventory_value: number;
-	inventory_capital: number;
-	timestamp: any;
-};
 
-export type InventoryValueHistory = Array<InventoryValueHistoryEntry>;
-
-type InventoryValueHistoryRes = {
-	data: InventoryValueHistory;
-};
-
-export type ItemEntry = {
-	icon_url: string;
-	item_id: string;
-	name: string;
-};
-
-export type Items = Array<ItemEntry>;
-
-type ItemRes = {
-	data: Items;
-};
 
 export const load = (async ({ params }) => {
 	const inventoryValueRes = await fetch(`https://joorrit.de/api/inventory/inventory_value_history`);
 	const inventoryValuefetchedData: InventoryValueHistoryRes = await inventoryValueRes.json();
+	const positionsInformationRes = await fetch(`https://joorrit.de/api/inventory/positions_information`);
+	const positionsInformationFetchedData: ItemRes = await positionsInformationRes.json();
 	const itemsRes = await fetch(`https://joorrit.de/api/items`);
 	const itemsFetchedData: ItemRes = await itemsRes.json();
 	const exchangeRateRes = await fetch(
@@ -42,6 +23,7 @@ export const load = (async ({ params }) => {
 
 	return {
 		inventoryValue: inventoryValuefetchedData,
-		items: itemsFetchedData
+		items: itemsFetchedData,
+		positionsInformation: positionsInformationFetchedData
 	};
 }) satisfies PageLoad;
