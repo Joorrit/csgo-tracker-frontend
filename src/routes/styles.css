@@ -1,14 +1,5 @@
 @import '@fontsource/fira-mono';
 
-@font-face {
-	font-family: 'Copperplate Gothic';
-	src: url('CopperplateGothic-Bold.woff2') format('woff2'),
-		url('CopperplateGothic-Bold.woff') format('woff');
-	font-weight: bold;
-	font-style: normal;
-	font-display: swap;
-}
-
 :root {
 	--font-family: 'Montserrat', sans-serif;
 	--color-bg-0: #121212;

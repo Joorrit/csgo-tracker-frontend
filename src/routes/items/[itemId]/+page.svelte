@@ -4,7 +4,8 @@
 	import type { ItemEntry } from '$lib/functions/types';
 	import { currency } from '$lib/functions/stores';
 	import { convCurr, priceToStr } from '$lib/functions/utils';
-	import { DurationSelectorWrapper, Icon, PortfolioElem, PriceChart } from '$lib/components';
+	import { DurationSelectorWrapper, Icon, PortfolioElem } from '$lib/components';
+	import PriceChart from '$lib/components/Chart/PriceChart.svelte';
 	$: $currency, convAllCurr();
 
 	function convAllCurr() {
