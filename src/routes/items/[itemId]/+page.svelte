@@ -8,6 +8,7 @@
 	import type { UTCTimestamp } from 'lightweight-charts';
 	import type { ItemPrice, ItemPriceHistory } from './+page';
 	import type { ItemEntry } from 'src/routes/+page';
+	import Icon from './Icon.svelte';
 	$: $currency, convAllCurr();
 
 	function convAllCurr() {
@@ -116,8 +117,9 @@
 
 <div class="wrapper">
 	<div class="table-wrapper" id="table-wrapper">
+		<Icon name={itemData.name} icon_url={itemData.icon_url} />
 		<PortfolioElem
-			title={itemData?.name}
+			title={itemData.name}
 			value={`${priceToStr(currCapital)} ${$currency == 'euro' ? '€' : '¥'}`}
 			gainValue={`${priceToStr(Math.abs(oldestCapital - currCapital))}${
 				$currency == 'euro' ? '€' : '¥'
