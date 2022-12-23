@@ -31,7 +31,7 @@
 	.item-wrapper {
 		display: flex;
 		align-items: center;
-		padding: 0.4rem 0;
+		padding: 0.4rem 1.5rem;
 		font-size: 0.9rem;
 		text-decoration: none;
 	}
@@ -53,6 +53,7 @@
 	}
 	.size-n-price {
 		display: flex;
+		align-items: center;
 		gap: 0.5rem;
 	}
 	.position-size {
@@ -60,9 +61,15 @@
 		background-color: #f9fafd1a;
 		padding: 0.1rem 0.25rem;
 		color: #f8fafd8f;
+		border-radius: 0.3rem;
 	}
 	.name-n-price {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
 		flex:1;
+		gap: 0.3rem;
+		margin-right: 1rem;
 	}
 	.gain {
 		font-size: 1rem;

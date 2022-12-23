@@ -7,7 +7,7 @@
 </script>
 
 <div class="wrapper">
-	<div class="invenstment-container">
+	<div class="investment-container">
 		<span class="title">Investments</span>
 		<div>
 			{#each positionsInformation as positionInformation}
@@ -57,11 +57,11 @@
 	.wrapper::-webkit-scrollbar-thumb:hover {
 		background: #555;
 	}
-	.invenstment-container {
+	.investment-container {
 		display: flex;
 		flex-direction: column;
 		background-color: #2e2e2e;
-		padding: 1.5rem;
+		padding: 1.5rem 0;
 		border-radius: 10px;
 		margin: var(--main-padding-top) 0.5rem;
 	}
@@ -69,5 +69,6 @@
 		font-weight: 600;
 		font-size: 1.2rem;
 		margin-bottom: 1rem;
+		margin-left: 1.5rem;
 	}
 </style>
