@@ -8,6 +8,7 @@
 	import type { UTCTimestamp } from 'lightweight-charts';
 	import type { ItemPrice, ItemPriceHistory } from './+page';
 	import type { ItemEntry } from 'src/routes/types';
+	import Icon from './Icon.svelte';
 	$: $currency, convAllCurr();
 
 	function convAllCurr() {

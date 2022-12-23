@@ -1,4 +1,4 @@
-import type { ItemEntry } from 'src/routes/+page';
+import type { ItemEntry } from 'src/routes/types';
 import type { PageLoad } from '../../$types';
 
 export const ssr = false;
