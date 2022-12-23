@@ -36,3 +36,8 @@ export type PositionsInformation = Array<PositionInformationEntry>;
 export type PositionsInformationRes = {
     data: PositionsInformation;
 }
+
+export type DropDownElement = {
+	title: string;
+	value: string;
+};

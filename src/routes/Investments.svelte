@@ -1,14 +1,33 @@
 <script lang="ts">
-	import type { PositionsInformation } from './types';
+	import type { DropDownElement, PositionsInformation } from './types';
 	import PositionInformation from './PositionInformation.svelte';
+	import DropDown from './DropDown.svelte';
 
 	export let positionsInformation: PositionsInformation;
-	positionsInformation.sort((a, b) => b.position_size*b.current_price - a.position_size*a.current_price);
+	positionsInformation.sort(
+		(a, b) => b.position_size * b.current_price - a.position_size * a.current_price
+	);
+
+	export let selectedElement: DropDownElement = {
+		title: 'Tagestrend (%)',
+		value: 'day-trend-perc'
+	};
 </script>
 
 <div class="wrapper">
 	<div class="investment-container">
-		<span class="title">Investments</span>
+		<div class="title-wrapper">
+			<span class="title">Investments</span>
+			<DropDown
+				elements={[
+					{ title: 'Tagestrend (%)', value: 'day-trend-perc' },
+					{ title: 'Tagestrend (€)', value: 'day-trend' },
+					{ title: 'Seit Kauf (%)', value: 'total-trend-perc' },
+					{ title: 'Seit Kauf (€)', value: 'total-trend' }
+				]}
+				{selectedElement}
+			/>
+		</div>
 		<div>
 			{#each positionsInformation as positionInformation}
 				<PositionInformation
@@ -40,6 +59,13 @@
 		}
 	}
 
+	.title-wrapper {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin: 0 1.5rem;
+	}
+
 	.wrapper::-webkit-scrollbar {
 		width: 10px;
 	}
@@ -69,6 +95,5 @@
 		font-weight: 600;
 		font-size: 1.2rem;
 		margin-bottom: 1rem;
-		margin-left: 1.5rem;
 	}
 </style>
