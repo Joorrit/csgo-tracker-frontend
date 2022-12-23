@@ -7,8 +7,7 @@
 	import { currency } from '../../stores';
 	import type { UTCTimestamp } from 'lightweight-charts';
 	import type { ItemPrice, ItemPriceHistory } from './+page';
-	import type { ItemEntry } from 'src/routes/+page';
-	import Icon from './Icon.svelte';
+	import type { ItemEntry } from 'src/routes/types';
 	$: $currency, convAllCurr();
 
 	function convAllCurr() {
@@ -119,11 +118,9 @@
 	<div class="table-wrapper" id="table-wrapper">
 		<Icon name={itemData.name} icon_url={itemData.icon_url} />
 		<PortfolioElem
-			title={itemData.name}
-			value={`${priceToStr(currCapital)} ${$currency == 'euro' ? '€' : '¥'}`}
-			gainValue={`${priceToStr(Math.abs(oldestCapital - currCapital))}${
-				$currency == 'euro' ? '€' : '¥'
-			}`}
+			title={itemData?.name}
+			value={priceToStr(currCapital, $currency)}
+			gainValue={priceToStr(Math.abs(oldestCapital - currCapital), $currency)}
 			gainPerc={`${Math.round(Math.abs((currCapital / oldestCapital - 1) * 100) * 100) / 100}%`}
 			profit={currCapital > oldestCapital}
 		/>

@@ -1,16 +1,25 @@
 <script lang="ts">
-	import type { Items } from './+page';
-	import Item from './Item.svelte';
+	import type { PositionsInformation } from './types';
+	import PositionInformation from './PositionInformation.svelte';
 
-	export let items: Items;
+	export let positionsInformation: PositionsInformation;
+	positionsInformation.sort((a, b) => b.position_size*b.current_price - a.position_size*a.current_price);
 </script>
 
 <div class="wrapper">
 	<div class="invenstment-container">
 		<span class="title">Investments</span>
 		<div>
-			{#each items as item}
-				<Item name={item.name} icon_url={item.icon_url} item_id={item.item_id} />
+			{#each positionsInformation as positionInformation}
+				<PositionInformation
+					name={positionInformation.item.name}
+					icon_url={positionInformation.item.icon_url}
+					item_id={positionInformation.item.item_id}
+					position_size={positionInformation.position_size}
+					purchase_price={positionInformation.purchase_price}
+					current_price={positionInformation.current_price}
+					prev_day_price={positionInformation.prev_day_price}
+				/>
 			{/each}
 		</div>
 	</div>

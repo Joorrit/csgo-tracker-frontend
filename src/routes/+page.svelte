@@ -1,13 +1,13 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import type { InventoryValueHistory, Items } from './+page';
 	import DurationSelectorWrapper from './DurationSelectorWrapper.svelte';
-	import Invenstments from './Invenstments.svelte';
+	import Investments from './Investments.svelte';
 	import PortfolioElem from './PortfolioElem.svelte';
 	import PriceChart from './PriceChart.svelte';
 	import { convCurr, priceToStr } from './utils';
 	import { currency } from './stores';
 	import type { UTCTimestamp } from 'lightweight-charts';
+	import type { InventoryValueHistory, Items, PositionsInformation } from './types';
 	$: $currency, convAllCurr();
 
 	function convAllCurr() {
@@ -16,12 +16,13 @@
 		currCapital = convCurr(newestEntry.inventory_value, $currency);
 	}
 
-	export let data: PageData;
+	export let data: any;
 
 	let chart: any;
 	let selectedDurationIndex = 5;
 
 	const inventoryValueData: InventoryValueHistory = data.inventoryValue.data;
+	const positionsInformationData: PositionsInformation = data.positionsInformation.data;
 	const chartData = inventoryValueData.map((item: any) => {
 		const unixTimestamp = (new Date(item.timestamp).getTime() / 1000) as UTCTimestamp;
 		return {
@@ -118,10 +119,8 @@
 	<div class="table-wrapper" id="table-wrapper">
 		<PortfolioElem
 			title="Portfolio"
-			value={`${priceToStr(currCapital)} ${$currency == 'euro' ? '€' : '¥'}`}
-			gainValue={`${priceToStr(Math.abs(oldestCapital - currCapital))}${
-				$currency == 'euro' ? '€' : '¥'
-			}`}
+			value={priceToStr(currCapital, $currency)}
+			gainValue={priceToStr(Math.abs(oldestCapital - currCapital), $currency)}
 			gainPerc={`${Math.round(Math.abs((currCapital / oldestCapital - 1) * 100) * 100) / 100}%`}
 			profit={currCapital > oldestCapital}
 		/>
@@ -143,7 +142,7 @@
 		/>
 	</div>
 	<div class="invenstment-wrapper">
-		<Invenstments items={itemsData} />
+		<Investments positionsInformation={positionsInformationData} />
 	</div>
 </div>
 
