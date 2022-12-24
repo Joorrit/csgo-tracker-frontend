@@ -1,10 +1,11 @@
 <script lang="ts">
 	import type { InventoryValueHistory, Items, PositionsInformation } from '$lib/functions/types';
 	import type { UTCTimestamp } from 'lightweight-charts';
-	import { DurationSelectorWrapper, PortfolioElem, PriceChart } from '$lib/components';
-	import { convCurr, dateToStr, priceToStr } from '$lib/functions/utils';
+	import { DurationSelectorWrapper, PortfolioElem } from '$lib/components';
+	import { convCurr, priceToStr, dateToStr } from '$lib/functions/utils';
 	import { currency } from '$lib/functions/stores';
 	import { Investments } from '$lib/components';
+	import PriceChart from '$lib/components/Chart/PriceChart.svelte';
 	$: $currency, convAllCurr();
 
 	function convAllCurr() {

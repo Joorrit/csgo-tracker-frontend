@@ -3,8 +3,9 @@
 	import type { ItemPrice, ItemPriceHistory } from './+page';
 	import type { ItemEntry } from '$lib/functions/types';
 	import { currency } from '$lib/functions/stores';
-	import { convCurr,dateToStr ,priceToStr } from '$lib/functions/utils';
-	import { DurationSelectorWrapper, Icon, PortfolioElem, PriceChart } from '$lib/components';
+	import { convCurr, priceToStr, dateToStr } from '$lib/functions/utils';
+	import { DurationSelectorWrapper, Icon, PortfolioElem } from '$lib/components';
+	import PriceChart from '$lib/components/Chart/PriceChart.svelte';
 	$: $currency, convAllCurr();
 
 	function convAllCurr() {
