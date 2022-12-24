@@ -1,28 +1,35 @@
 <script lang="ts">
 	import type { DropDownElement, PositionsInformation } from '$lib/functions/types';
+	import { currency } from '$lib/functions/stores';
 	import { DropDown } from '$lib/components';
 	import PositionInformation from './PositionInformation.svelte';
+	import { currToSymbol } from '$lib/functions/utils';
 
 	export let positionsInformation: PositionsInformation;
 	positionsInformation.sort(
 		(a, b) => b.position_size * b.current_price - a.position_size * a.current_price
 	);
 
-	const dropdownElements: DropDownElement[] = [
-		{ title: 'Tagestrend (%)', value: 'day-trend-perc' },
-		{ title: 'Tagestrend (€)', value: 'day-trend' },
-		{ title: 'Seit Kauf (%)', value: 'total-trend-perc' },
-		{ title: 'Seit Kauf (€)', value: 'total-trend' }
-	];
+	$: $currency, updateElements();
+	function updateElements() {
+		elements = [
+			{ title: 'Tagestrend (%)', value: 'day-trend-perc' },
+			{ title: `Tagestrend (${currToSymbol($currency)})`, value: 'day-trend' },
+			{ title: 'Seit Kauf (%)', value: 'total-trend-perc' },
+			{ title: `Seit Kauf (${currToSymbol($currency)})`, value: 'total-trend' }
+		];
+	}
+	let elements: DropDownElement[] = [];
+	updateElements()
 
-	let selectedElement: any = dropdownElements[0];
+	let selectedElement: any = elements[0];
 </script>
 
 <div class="wrapper">
 	<div class="investment-container">
 		<div class="title-wrapper">
 			<span class="title">Investments</span>
-			<DropDown elements={dropdownElements} bind:selectedElement />
+			<DropDown bind:selectedElement bind:elements />
 		</div>
 		<div>
 			{#each positionsInformation as positionInformation}

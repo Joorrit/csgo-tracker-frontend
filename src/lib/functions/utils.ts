@@ -12,7 +12,7 @@ export const priceToStr = (price: number, currency: Currency) => {
 		.toString()
 		.replace('.', ',')
 		.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
-	return `${priceStr} ${currency == 'euro' ? '€' : '¥'}`;
+	return `${priceStr} ${currToSymbol(currency)}`;
 };
 
 export const gainToStr = (gain: number) => {
@@ -24,3 +24,18 @@ export const convCurr = (price: number, currency: Currency) => {
 	if (currency == 'euro') return price / get(exchangeRate);
 	return price;
 };
+
+export const currToSymbol = (currency: Currency) => {
+	return currency == 'euro' ? '€' : '¥';
+}
+
+export const dateToStr = (date: Date | null) => {
+	if (!date) return '';
+	const year = date.getFullYear();
+	const month = addLeadinZero(date.getMonth() + 1);
+	const day = addLeadinZero(date.getDate());
+	const hours = addLeadinZero(date.getHours());
+	const minutes = addLeadinZero(date.getMinutes());
+	const seconds = addLeadinZero(date.getSeconds());
+	return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}

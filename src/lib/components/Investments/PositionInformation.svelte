@@ -30,7 +30,7 @@
 	{/if}
 	{#if displayType === 'day-trend'}
 		<div class={`gain ${current_price - prev_day_price >= 0 ? 'positive-gain' : 'negative-gain'}`}>
-			{priceToStr(convCurr(current_price - prev_day_price, $currency), $currency)}
+			{priceToStr(convCurr((current_price - prev_day_price)*position_size, $currency), $currency)}
 		</div>
 	{/if}
 	{#if displayType === 'total-trend-perc'}
@@ -39,8 +39,8 @@
 		</div>
 	{/if}
 	{#if displayType === 'total-trend'}
-		<div class={`gain ${current_price - purchase_price >= 1 ? 'positive-gain' : 'negative-gain'}`}>
-			{priceToStr(convCurr(current_price - purchase_price, $currency), $currency)}
+		<div class={`gain ${current_price - purchase_price >= 0 ? 'positive-gain' : 'negative-gain'}`}>
+			{priceToStr(convCurr((current_price - purchase_price)*position_size, $currency), $currency)}
 		</div>
 	{/if}
 </a>

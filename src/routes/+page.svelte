@@ -2,7 +2,7 @@
 	import type { InventoryValueHistory, Items, PositionsInformation } from '$lib/functions/types';
 	import type { UTCTimestamp } from 'lightweight-charts';
 	import { DurationSelectorWrapper, PortfolioElem, PriceChart } from '$lib/components';
-	import { convCurr, priceToStr } from '$lib/functions/utils';
+	import { convCurr, dateToStr, priceToStr } from '$lib/functions/utils';
 	import { currency } from '$lib/functions/stores';
 	import { Investments } from '$lib/components';
 	$: $currency, convAllCurr();
@@ -34,12 +34,18 @@
 	let oldestCapital = oldestEntry.inventory_value;
 	let newestCapital = newestEntry.inventory_value;
 	let currCapital = newestEntry.inventory_value;
+	let crosshairTime: Date | null = null;
 
 	function onCrosshairMove(price: number, time: number) {
 		if (price !== null && price !== undefined) {
 			currCapital = convCurr(price, $currency);
 		} else {
 			currCapital = newestCapital;
+		}
+		if (time !== null && time !== undefined) {
+			crosshairTime = new Date(time * 1000);
+		} else {
+			crosshairTime = null;
 		}
 	}
 
@@ -66,8 +72,9 @@
 
 	function onClick1Day() {
 		const now = new Date().getTime() / 1000;
-		const oneDayAgo = now - 24 * 60 * 60;
-		chart.setTimeScale(oneDayAgo, now);
+		const oneDayAgo = new Date();
+		oneDayAgo.setHours(0, 0, 0, 0);
+		chart.setTimeScale(oneDayAgo.getTime()/1000, now);
 		selectedDurationIndex = 0;
 	}
 
@@ -120,6 +127,7 @@
 			gainValue={priceToStr(Math.abs(oldestCapital - currCapital), $currency)}
 			gainPerc={`${Math.round(Math.abs((currCapital / oldestCapital - 1) * 100) * 100) / 100}%`}
 			profit={currCapital > oldestCapital}
+			datestring={dateToStr(crosshairTime)}
 		/>
 		<DurationSelectorWrapper
 			{onClick1Day}

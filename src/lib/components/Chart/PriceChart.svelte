@@ -89,6 +89,7 @@
 		});
 
 		function scaleTimeScale(diff: number) {
+			console.log(diff)
 			if (diff < 154) {
 				// show every hour
 				chart.applyOptions({
