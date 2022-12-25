@@ -1,8 +1,9 @@
 export type Currency = 'euro' | 'yuan';
 export type InventoryValueHistoryEntry = {
 	inventory_value: number;
-	inventory_capital: number;
+	invested_capital: number;
 	timestamp: any;
+	liquid_funds: number;
 };
 
 export type InventoryValueHistory = Array<InventoryValueHistoryEntry>;
@@ -24,18 +25,18 @@ export type ItemRes = {
 };
 
 export type PositionInformationEntry = {
-    item: ItemEntry;
-    position_size: number;
-    current_price: number;
-    prev_day_price: number;
-    purchase_price: number;
-}
+	item: ItemEntry;
+	position_size: number;
+	current_price: number;
+	prev_day_price: number;
+	purchase_price: number;
+};
 
 export type PositionsInformation = Array<PositionInformationEntry>;
 
 export type PositionsInformationRes = {
-    data: PositionsInformation;
-}
+	data: PositionsInformation;
+};
 
 export type DropDownElement = {
 	title: string;

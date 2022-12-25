@@ -21,11 +21,11 @@
 
 	const inventoryValueData: InventoryValueHistory = data.inventoryValue.data;
 	const positionsInformationData: PositionsInformation = data.positionsInformation.data;
-	const chartData = inventoryValueData.map((item: any) => {
+	const chartData = inventoryValueData.map((item) => {
 		const unixTimestamp = (new Date(item.timestamp).getTime() / 1000) as UTCTimestamp;
 		return {
 			time: unixTimestamp,
-			value: item.inventory_value
+			value: (item.inventory_value + item.liquid_funds) / item.invested_capital
 		};
 	});
 
@@ -38,8 +38,9 @@
 	let crosshairTime: Date | null = null;
 
 	function onCrosshairMove(price: number, time: number) {
+		const closestEntry = findClosestEntry(time);
 		if (price !== null && price !== undefined) {
-			currCapital = convCurr(price, $currency);
+			currCapital = convCurr(closestEntry.inventory_value, $currency);
 		} else {
 			currCapital = newestCapital;
 		}
@@ -75,7 +76,7 @@
 		const now = new Date().getTime() / 1000;
 		const oneDayAgo = new Date();
 		oneDayAgo.setHours(0, 0, 0, 0);
-		chart.setTimeScale(oneDayAgo.getTime()/1000, now);
+		chart.setTimeScale(oneDayAgo.getTime() / 1000, now);
 		selectedDurationIndex = 0;
 	}
 
