@@ -1,35 +1,18 @@
-import type { ItemEntry } from '$lib/functions/types';
+import type { ItemEntry, PositionInformationEntry } from '$lib/functions/types';
 import type { PageLoad } from './$types';
 
 export const ssr = false;
-
-export type ItemPrice = {
-	highest_bargain_price: number;
-	item_id: string;
-	price: number;
-	timestamp: any;
-};
-
-export type ItemPriceHistory = Array<ItemPrice>;
-
-type ItemPriceHistoryRes = {
-	data: ItemPriceHistory;
-};
-
-type ItemRes = {
-	data: ItemEntry;
-};
 
 export const load = (async ({ params }: any) => {
 	const itemPriceHistoryRes = await fetch(
 		`https://joorrit.de/api/items/${params.itemId}/price_history`
 	);
 	const itemPriceHistoryFetchedData: ItemPriceHistoryRes = await itemPriceHistoryRes.json();
-	const itemRes = await fetch(`https://joorrit.de/api/items/${params.itemId}`);
-	const itemFetchedData: ItemRes = await itemRes.json();
+	const itemPositionInformationRes = await fetch(`https://joorrit.de/api/inventory/positions_information/${params.itemId}`);
+	const itemPositionInformationFetchedData: PositionInformationEntry = await itemPositionInformationRes.json();
 
 	return {
 		itemPriceHistory: itemPriceHistoryFetchedData,
-		item: itemFetchedData
+		itemPositionInformation: itemPositionInformationFetchedData
 	};
 }) satisfies PageLoad;

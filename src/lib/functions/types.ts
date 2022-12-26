@@ -20,7 +20,7 @@ export type ItemEntry = {
 
 export type Items = Array<ItemEntry>;
 
-export type ItemRes = {
+export type ItemsRes = {
 	data: Items;
 };
 
@@ -41,4 +41,21 @@ export type PositionsInformationRes = {
 export type DropDownElement = {
 	title: string;
 	value: string;
+};
+
+export type ItemPrice = {
+	highest_bargain_price: number;
+	item_id: string;
+	price: number;
+	timestamp: any;
+};
+
+export type ItemPriceHistory = Array<ItemPrice>;
+
+export type ItemPriceHistoryRes = {
+	data: ItemPriceHistory;
+};
+
+export type ItemRes = {
+	data: ItemEntry;
 };
