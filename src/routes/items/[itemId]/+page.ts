@@ -1,4 +1,4 @@
-import type { ItemEntry, PositionInformationEntry } from '$lib/functions/types';
+import type { ItemPriceHistoryRes, PositionInformationEntry } from '$lib/functions/types';
 import type { PageLoad } from './$types';
 
 export const ssr = false;

@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { UTCTimestamp } from 'lightweight-charts';
-	import type { ItemPrice, ItemPriceHistory } from './+page';
-	import type { ItemEntry, PositionInformationEntry } from '$lib/functions/types';
+	import type { ItemEntry, ItemPrice, ItemPriceHistory, PositionInformationEntry } from '$lib/functions/types';
 	import { currency } from '$lib/functions/stores';
 	import { convCurr, priceToStr, dateToStr } from '$lib/functions/utils';
 	import { DurationSelectorWrapper, Icon, PortfolioElem } from '$lib/components';
@@ -15,13 +14,11 @@
 		currCapital = convCurr(newestEntry.price, $currency);
 	}
 
-	export let data: any;
+	export let data;
 
 	let chart: any;
 	let selectedDurationIndex = 5;
-	console.log(data)
 	const itemPositionInformation: PositionInformationEntry = data.itemPositionInformation;
-	console.log(itemPositionInformation)
 	const itemData: ItemEntry = itemPositionInformation.item;
 	const itemPriceHistoryData: ItemPriceHistory = data.itemPriceHistory.data;
 	const chartData = itemPriceHistoryData.map((item: ItemPrice) => {
@@ -77,7 +74,7 @@
 		const now = new Date().getTime() / 1000;
 		const oneDayAgo = new Date();
 		oneDayAgo.setHours(0, 0, 0, 0);
-		chart.setTimeScale(oneDayAgo.getTime()/1000, now);
+		chart.setTimeScale(oneDayAgo.getTime() / 1000, now);
 		selectedDurationIndex = 0;
 	}
 
