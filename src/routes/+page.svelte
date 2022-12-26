@@ -116,7 +116,7 @@
 	<div class="table-wrapper" id="table-wrapper">
 		<PortfolioElem
 			title="Portfolio"
-			value={priceToStr(convCurr(currEntry.inventory_value, $currency), $currency)}
+			value={priceToStr(convCurr(currEntry.inventory_value + currEntry.liquid_funds, $currency), $currency)}
 			gainValue={priceToStr(
 				convCurr(
 					Math.abs(getRelativeValue(oldestEntry) - getRelativeValue(currEntry)) *
