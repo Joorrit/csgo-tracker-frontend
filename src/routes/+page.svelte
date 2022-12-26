@@ -2,17 +2,10 @@
 	import type { InventoryValueHistory, Items, PositionsInformation } from '$lib/functions/types';
 	import type { UTCTimestamp } from 'lightweight-charts';
 	import { DurationSelectorWrapper, PortfolioElem } from '$lib/components';
-	import { convCurr, priceToStr, dateToStr } from '$lib/functions/utils';
+	import { convCurr, priceToStr, dateToStr, getRelativeValue } from '$lib/functions/utils';
 	import { currency } from '$lib/functions/stores';
 	import { Investments } from '$lib/components';
 	import PriceChart from '$lib/components/Chart/PriceChart.svelte';
-	$: $currency, convAllCurr();
-
-	function convAllCurr() {
-		oldestCapital = convCurr(oldestEntry.inventory_value, $currency);
-		newestCapital = convCurr(newestEntry.inventory_value, $currency);
-		currCapital = convCurr(newestEntry.inventory_value, $currency);
-	}
 
 	export let data: any;
 
@@ -21,28 +14,27 @@
 
 	const inventoryValueData: InventoryValueHistory = data.inventoryValue.data;
 	const positionsInformationData: PositionsInformation = data.positionsInformation.data;
-	const chartData = inventoryValueData.map((item) => {
-		const unixTimestamp = (new Date(item.timestamp).getTime() / 1000) as UTCTimestamp;
+	const chartData = inventoryValueData.map((inventoryValue) => {
+		const unixTimestamp = (new Date(inventoryValue.timestamp).getTime() / 1000) as UTCTimestamp;
 		return {
 			time: unixTimestamp,
-			value: (item.inventory_value + item.liquid_funds) / item.invested_capital
+			value: getRelativeValue(inventoryValue)
 		};
 	});
 
 	const itemsData: Items = data.items.data;
-	const newestEntry = inventoryValueData[inventoryValueData.length - 1];
-	const oldestEntry = inventoryValueData[0];
-	let oldestCapital = oldestEntry.inventory_value;
-	let newestCapital = newestEntry.inventory_value;
-	let currCapital = newestEntry.inventory_value;
+	let newestEntry = inventoryValueData[inventoryValueData.length - 1];
+	let oldestEntry = inventoryValueData[0];
+	let currEntry = newestEntry;
+	
 	let crosshairTime: Date | null = null;
 
 	function onCrosshairMove(price: number, time: number) {
 		const closestEntry = findClosestEntry(time);
 		if (price !== null && price !== undefined) {
-			currCapital = convCurr(closestEntry.inventory_value, $currency);
+			currEntry = closestEntry;
 		} else {
-			currCapital = newestCapital;
+			currEntry = newestEntry;
 		}
 		if (time !== null && time !== undefined) {
 			crosshairTime = new Date(time * 1000);
@@ -64,11 +56,10 @@
 		const fromEntry = findClosestEntry(from);
 		const toEntry = findClosestEntry(to);
 		if (toEntry) {
-			newestCapital = convCurr(toEntry.inventory_value, $currency);
-			currCapital = newestCapital;
+			newestEntry = toEntry;
 		}
 		if (fromEntry) {
-			oldestCapital = convCurr(fromEntry.inventory_value, $currency);
+			oldestEntry = fromEntry;
 		}
 	}
 
@@ -125,10 +116,21 @@
 	<div class="table-wrapper" id="table-wrapper">
 		<PortfolioElem
 			title="Portfolio"
-			value={priceToStr(currCapital, $currency)}
-			gainValue={priceToStr(Math.abs(oldestCapital - currCapital), $currency)}
-			gainPerc={`${Math.round(Math.abs((currCapital / oldestCapital - 1) * 100) * 100) / 100}%`}
-			profit={currCapital > oldestCapital}
+			value={priceToStr(convCurr(currEntry.inventory_value, $currency), $currency)}
+			gainValue={priceToStr(
+				convCurr(
+					Math.abs(getRelativeValue(oldestEntry) - getRelativeValue(currEntry)) *
+						currEntry.invested_capital,
+					$currency
+				),
+				$currency
+			)}
+			gainPerc={`${
+				Math.round(
+					Math.abs((getRelativeValue(currEntry) / getRelativeValue(oldestEntry) - 1) * 100) * 100
+				) / 100
+			}%`}
+			profit={getRelativeValue(currEntry) > getRelativeValue(oldestEntry)}
 			datestring={dateToStr(crosshairTime)}
 		/>
 		<DurationSelectorWrapper
@@ -145,7 +147,7 @@
 			{onCrosshairMove}
 			{onTimeScaleChanged}
 			bind:this={chart}
-			profit={newestCapital > oldestCapital}
+			profit={getRelativeValue(newestEntry) > getRelativeValue(oldestEntry)}
 		/>
 	</div>
 	<div class="invenstment-wrapper">

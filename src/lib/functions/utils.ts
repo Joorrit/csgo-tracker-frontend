@@ -1,4 +1,4 @@
-import type { Currency } from './types';
+import type { Currency, InventoryValueHistoryEntry } from './types';
 import { get } from 'svelte/store';
 import { exchangeRate } from './stores';
 
@@ -27,7 +27,7 @@ export const convCurr = (price: number, currency: Currency) => {
 
 export const currToSymbol = (currency: Currency) => {
 	return currency == 'euro' ? '€' : '¥';
-}
+};
 
 export const dateToStr = (date: Date | null) => {
 	if (!date) return '';
@@ -38,4 +38,10 @@ export const dateToStr = (date: Date | null) => {
 	const minutes = addLeadinZero(date.getMinutes());
 	const seconds = addLeadinZero(date.getSeconds());
 	return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-}
+};
+
+export const getRelativeValue = (inventoryValue: InventoryValueHistoryEntry) => {
+	return (
+		(inventoryValue.inventory_value + inventoryValue.liquid_funds) / inventoryValue.invested_capital
+	);
+};
