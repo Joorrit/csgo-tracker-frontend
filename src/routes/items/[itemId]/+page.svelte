@@ -1,11 +1,12 @@
 <script lang="ts">
 	import type { UTCTimestamp } from 'lightweight-charts';
 	import type { ItemPrice, ItemPriceHistory } from './+page';
-	import type { ItemEntry } from '$lib/functions/types';
+	import type { ItemEntry, PositionInformationEntry } from '$lib/functions/types';
 	import { currency } from '$lib/functions/stores';
 	import { convCurr, priceToStr, dateToStr } from '$lib/functions/utils';
 	import { DurationSelectorWrapper, Icon, PortfolioElem } from '$lib/components';
 	import PriceChart from '$lib/components/Chart/PriceChart.svelte';
+	import PositionInformation from '$lib/components/ItemInformations/ItemInformations.svelte';
 	$: $currency, convAllCurr();
 
 	function convAllCurr() {
@@ -18,8 +19,10 @@
 
 	let chart: any;
 	let selectedDurationIndex = 5;
-
-	const itemData: ItemEntry = data.item;
+	console.log(data)
+	const itemPositionInformation: PositionInformationEntry = data.itemPositionInformation;
+	console.log(itemPositionInformation)
+	const itemData: ItemEntry = itemPositionInformation.item;
 	const itemPriceHistoryData: ItemPriceHistory = data.itemPriceHistory.data;
 	const chartData = itemPriceHistoryData.map((item: ItemPrice) => {
 		const unixTimestamp = (new Date(item.timestamp).getTime() / 1000) as UTCTimestamp;
@@ -145,6 +148,11 @@
 			{onTimeScaleChanged}
 			bind:this={chart}
 			profit={newestCapital > oldestCapital}
+		/>
+		<PositionInformation
+			positionSize={itemPositionInformation.position_size}
+			positionValue={itemPositionInformation.position_size * itemPositionInformation.current_price}
+			purchasePrice={itemPositionInformation.purchase_price}
 		/>
 	</div>
 	<div class="invenstment-wrapper" />
