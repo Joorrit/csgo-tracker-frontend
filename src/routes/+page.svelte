@@ -151,7 +151,7 @@
 		/>
 	</div>
 	<div class="invenstment-wrapper">
-		<Investments positionsInformation={positionsInformationData} />
+		<Investments positionsInformation={positionsInformationData} current_liquid_funds={currEntry.liquid_funds} />
 	</div>
 </div>
 

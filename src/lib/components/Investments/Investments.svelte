@@ -3,12 +3,14 @@
 	import { currency } from '$lib/functions/stores';
 	import { DropDown } from '$lib/components';
 	import PositionInformation from './PositionInformation.svelte';
-	import { currToSymbol } from '$lib/functions/utils';
+	import { currToSymbol, priceToStr, convCurr } from '$lib/functions/utils';
 
 	export let positionsInformation: PositionsInformation;
 	positionsInformation.sort(
 		(a, b) => b.position_size * b.current_price - a.position_size * a.current_price
 	);
+
+	export let current_liquid_funds: number;
 
 	$: $currency, updateElements();
 	function updateElements() {
@@ -44,6 +46,13 @@
 					displayType={selectedElement.value}
 				/>
 			{/each}
+		</div>
+		<div class='liquids-wrapper'>
+			<span style="flex: 1">
+				Liquide Mittel:
+			</span>
+			<span style="font-weight: 400">
+				{priceToStr(convCurr(current_liquid_funds, $currency), $currency)}
 		</div>
 	</div>
 </div>
@@ -99,5 +108,14 @@
 		font-weight: 600;
 		font-size: 1.2rem;
 		margin-bottom: 1rem;
+	}
+	.liquids-wrapper {
+		display:flex;
+		font-weight: 600;
+		font-size: 1.2rem;
+		margin-bottom: 0rem;
+		margin-left: 1.5rem;
+		margin-top: 1rem;
+		margin-right: 1.5rem;
 	}
 </style>
