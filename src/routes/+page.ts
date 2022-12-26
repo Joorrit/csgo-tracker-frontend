@@ -13,12 +13,9 @@ export const load = (async ({ params }) => {
 	const positionsInformationFetchedData: ItemRes = await positionsInformationRes.json();
 	const itemsRes = await fetch(`https://joorrit.de/api/items`);
 	const itemsFetchedData: ItemRes = await itemsRes.json();
-	const exchangeRateRes = await fetch(
-		'https://v6.exchangerate-api.com/v6/0906f918b7251c4b9ec9cd4c/pair/EUR/CNY'
-	);
+	const exchangeRateRes = await fetch('https://joorrit.de/api/exchange_rate');
 	const exchangeRateFetchedData = await exchangeRateRes.json();
-	const exchangeRateVal = exchangeRateFetchedData.conversion_rate;
-
+	const exchangeRateVal = exchangeRateFetchedData.data;
 	exchangeRate.set(exchangeRateVal);
 
 	return {
