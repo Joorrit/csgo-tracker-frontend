@@ -6,3 +6,4 @@ export { default as DurationSelectorWrapper } from './DurationSelector/DurationS
 export { default as PortfolioElem } from './PortfolioElem/PortfolioElem.svelte';
 export { default as Switch } from './Switch/Switch.svelte';
 export { default as Icon } from './Icon/Icon.svelte';
+export { default as SiteWrapper } from './SiteWrapper/SiteWrapper.svelte';

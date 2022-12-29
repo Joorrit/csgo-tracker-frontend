@@ -2,8 +2,9 @@
 	import type { DropDownElement, PositionsInformation } from '$lib/functions/types';
 	import { currency } from '$lib/functions/stores';
 	import { DropDown } from '$lib/components';
-	import PositionInformation from './PositionInformation.svelte';
+	import { SiteWrapper } from '$lib/components';
 	import { currToSymbol, priceToStr, convCurr } from '$lib/functions/utils';
+	import PositionInformation from './PositionInformation.svelte';
 
 	export let positionsInformation: PositionsInformation;
 	positionsInformation.sort(
@@ -22,87 +23,44 @@
 		];
 	}
 	let elements: DropDownElement[] = [];
-	updateElements()
+	updateElements();
 
 	let selectedElement: any = elements[0];
 </script>
 
-<div class="wrapper">
-	<div class="investment-container">
-		<div class="title-wrapper">
-			<span class="title">Investments</span>
-			<DropDown bind:selectedElement bind:elements />
-		</div>
-		<div>
-			{#each positionsInformation as positionInformation}
-				<PositionInformation
-					name={positionInformation.item.name}
-					icon_url={positionInformation.item.icon_url}
-					item_id={positionInformation.item.item_id}
-					position_size={positionInformation.position_size}
-					purchase_price={positionInformation.purchase_price}
-					current_price={positionInformation.current_price}
-					prev_day_price={positionInformation.prev_day_price}
-					displayType={selectedElement.value}
-				/>
-			{/each}
-		</div>
-		<div class='liquids-wrapper'>
-			<span style="flex: 1">
-				Liquide Mittel:
-			</span>
-			<span style="font-weight: 400">
-				{priceToStr(convCurr(current_liquid_funds, $currency), $currency)}
-		</div>
+<SiteWrapper>
+	<div class="title-wrapper">
+		<span class="title">Investments</span>
+		<DropDown bind:selectedElement bind:elements />
 	</div>
-</div>
+	<div>
+		{#each positionsInformation as positionInformation}
+			<PositionInformation
+				name={positionInformation.item.name}
+				icon_url={positionInformation.item.icon_url}
+				item_id={positionInformation.item.item_id}
+				position_size={positionInformation.position_size}
+				purchase_price={positionInformation.purchase_price}
+				current_price={positionInformation.current_price}
+				prev_day_price={positionInformation.prev_day_price}
+				displayType={selectedElement.value}
+			/>
+		{/each}
+	</div>
+	<div class="liquids-wrapper">
+		<span style="flex: 1"> Liquide Mittel: </span>
+		<span style="font-weight: 400">
+			{priceToStr(convCurr(current_liquid_funds, $currency), $currency)}
+		</span>
+	</div>
+</SiteWrapper>
 
 <style>
-	.wrapper {
-		min-width: 6rem;
-		min-height: 6rem;
-		height: calc(100vh - var(--header-height));
-		overflow-y: auto;
-	}
-
-	@media only screen and (max-width: 1200px) {
-		.wrapper {
-			height: auto;
-			overflow-y: auto;
-		}
-	}
-
 	.title-wrapper {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		margin: 0 1.5rem;
-	}
-
-	.wrapper::-webkit-scrollbar {
-		width: 10px;
-	}
-
-	.wrapper::-webkit-scrollbar-track {
-		background: rgb(68, 68, 68);
-		border-radius: 10px;
-	}
-
-	.wrapper::-webkit-scrollbar-thumb {
-		background: #888;
-		border-radius: 10px;
-	}
-
-	.wrapper::-webkit-scrollbar-thumb:hover {
-		background: #555;
-	}
-	.investment-container {
-		display: flex;
-		flex-direction: column;
-		background-color: #2e2e2e;
-		padding: 1.5rem 0;
-		border-radius: 10px;
-		margin: var(--main-padding-top) 0.5rem;
 	}
 	.title {
 		font-weight: 600;
@@ -110,7 +68,7 @@
 		margin-bottom: 1rem;
 	}
 	.liquids-wrapper {
-		display:flex;
+		display: flex;
 		font-weight: 600;
 		font-size: 1.2rem;
 		margin-bottom: 0rem;

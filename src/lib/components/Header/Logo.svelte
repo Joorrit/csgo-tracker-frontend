@@ -1,7 +1,7 @@
-<div class="title">
+<a class="title" href="/">
 	<div>CS:GO</div>
 	<div>Capital</div>
-</div>
+</a>
 
 <style>
 	.title {

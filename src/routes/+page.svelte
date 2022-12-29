@@ -26,7 +26,7 @@
 	let newestEntry = inventoryValueData[inventoryValueData.length - 1];
 	let oldestEntry = inventoryValueData[0];
 	let currEntry = newestEntry;
-	
+
 	let crosshairTime: Date | null = null;
 
 	function onCrosshairMove(price: number, time: number) {
@@ -116,7 +116,10 @@
 	<div class="table-wrapper" id="table-wrapper">
 		<PortfolioElem
 			title="Portfolio"
-			value={priceToStr(convCurr(currEntry.inventory_value + currEntry.liquid_funds, $currency), $currency)}
+			value={priceToStr(
+				convCurr(currEntry.inventory_value + currEntry.liquid_funds, $currency),
+				$currency
+			)}
 			gainValue={priceToStr(
 				convCurr(
 					Math.abs(getRelativeValue(oldestEntry) - getRelativeValue(currEntry)) *
@@ -151,7 +154,10 @@
 		/>
 	</div>
 	<div class="invenstment-wrapper">
-		<Investments positionsInformation={positionsInformationData} current_liquid_funds={currEntry.liquid_funds} />
+		<Investments
+			positionsInformation={positionsInformationData}
+			current_liquid_funds={currEntry.liquid_funds}
+		/>
 	</div>
 </div>
 

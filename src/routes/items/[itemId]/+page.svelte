@@ -1,6 +1,11 @@
 <script lang="ts">
 	import type { UTCTimestamp } from 'lightweight-charts';
-	import type { ItemEntry, ItemPrice, ItemPriceHistory, PositionInformationEntry } from '$lib/functions/types';
+	import type {
+		ItemEntry,
+		ItemPrice,
+		ItemPriceHistory,
+		PositionInformationEntry
+	} from '$lib/functions/types';
 	import { currency } from '$lib/functions/stores';
 	import { convCurr, priceToStr, dateToStr } from '$lib/functions/utils';
 	import { DurationSelectorWrapper, Icon, PortfolioElem } from '$lib/components';
@@ -146,20 +151,22 @@
 			bind:this={chart}
 			profit={newestCapital > oldestCapital}
 		/>
+	</div>
+	<div class="invenstment-wrapper">
 		<PositionInformation
 			positionSize={itemPositionInformation.position_size}
 			positionValue={itemPositionInformation.position_size * itemPositionInformation.current_price}
 			purchasePrice={itemPositionInformation.purchase_price}
+			currentPrice={itemPositionInformation.current_price}
 		/>
 	</div>
-	<div class="invenstment-wrapper" />
 </div>
 
 <style>
 	.wrapper {
 		display: flex;
 		justify-content: space-between;
-		/* height: auto; */
+		gap: 2rem;
 	}
 	@media only screen and (max-width: 1200px) {
 		.wrapper {
@@ -168,12 +175,12 @@
 		}
 	}
 	.table-wrapper {
+		flex: 2;
 		overflow: hidden;
 		margin-top: var(--main-padding-top);
 	}
 	.invenstment-wrapper {
-		grid-row: 1 / span 3;
-		grid-column: 2;
+		flex: 1;
 		position: -webkit-sticky;
 		position: sticky;
 		top: var(--header-height);
