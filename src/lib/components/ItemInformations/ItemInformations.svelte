@@ -3,17 +3,27 @@
 	import { currency } from '$lib/functions/stores';
 	import { convCurr, gainToStr, priceToStr } from '$lib/functions/utils';
 
+    export let portfolioValue: number;
 	export let positionSize: number;
 	export let positionValue: number;
 	export let purchasePrice: number;
 	export let currentPrice: number;
+    console.log(portfolioValue, positionSize, positionValue, purchasePrice, currentPrice)
 </script>
 
 <SiteWrapper>
 	<div class="wrapper">
 		<span class="title">Depot</span>
-		<span class="sub-title">Gesamt</span>
-		<span class="total-value">{priceToStr(convCurr(positionValue, $currency), $currency)}</span>
+		<div class='value-wrapper'>
+            <div class='title-value-container'>
+                <span class="sub-title">Gesamt</span>
+                <span class="total-value">{priceToStr(convCurr(positionValue, $currency), $currency)}</span>
+            </div>
+            <div class='title-value-container'>
+                <span class='sub-title'>%Portf.</span>
+                <span class="total-value">{gainToStr(positionValue/portfolioValue*100)}</span>
+            </div>
+        </div>
 		<span class="sub-title">Performance</span>
 		<span
 			class={`total-value ${currentPrice - purchasePrice >= 0 ? 'positive-gain' : 'negative-gain'}`}
@@ -70,10 +80,12 @@
 	}
 	.value-wrapper {
 		display: flex;
+        justify-content: space-between;
 	}
 	.title-value-container {
 		display: flex;
 		flex-direction: column;
-		margin-right: 1rem;
+		margin-right: 2rem;
+        flex: 1;
 	}
 </style>

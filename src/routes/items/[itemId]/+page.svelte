@@ -26,6 +26,7 @@
 	const itemPositionInformation: PositionInformationEntry = data.itemPositionInformation;
 	const itemData: ItemEntry = itemPositionInformation.item;
 	const itemPriceHistoryData: ItemPriceHistory = data.itemPriceHistory.data;
+	const portfolioValue = data.inventoryValue.data[data.inventoryValue.data.length - 1].inventory_value + data.inventoryValue.data[data.inventoryValue.data.length - 1].liquid_funds;
 	const chartData = itemPriceHistoryData.map((item: ItemPrice) => {
 		const unixTimestamp = (new Date(item.timestamp).getTime() / 1000) as UTCTimestamp;
 		return {
@@ -158,6 +159,7 @@
 			positionValue={itemPositionInformation.position_size * itemPositionInformation.current_price}
 			purchasePrice={itemPositionInformation.purchase_price}
 			currentPrice={itemPositionInformation.current_price}
+			portfolioValue={portfolioValue}
 		/>
 	</div>
 </div>
