@@ -2,7 +2,7 @@
 	import type { InventoryValueHistory, Items, PositionsInformation } from '$lib/functions/types';
 	import type { UTCTimestamp } from 'lightweight-charts';
 	import { DurationSelectorWrapper, PortfolioElem } from '$lib/components';
-	import { convCurr, priceToStr, dateToStr, getRelativeValue } from '$lib/functions/utils';
+	import { convCurr, priceToStr, dateToStr, getRelativeValue, getAbsoluteGain } from '$lib/functions/utils';
 	import { currency } from '$lib/functions/stores';
 	import { Investments } from '$lib/components';
 	import PriceChart from '$lib/components/Chart/PriceChart.svelte';
@@ -18,7 +18,7 @@
 		const unixTimestamp = (new Date(inventoryValue.timestamp).getTime() / 1000) as UTCTimestamp;
 		return {
 			time: unixTimestamp,
-			value: getRelativeValue(inventoryValue)
+			value: getAbsoluteGain(inventoryValue)
 		};
 	});
 
@@ -122,18 +122,17 @@
 			)}
 			gainValue={priceToStr(
 				convCurr(
-					Math.abs(getRelativeValue(oldestEntry) - getRelativeValue(currEntry)) *
-						currEntry.invested_capital,
+					getAbsoluteGain(currEntry)-getAbsoluteGain(oldestEntry),
 					$currency
 				),
 				$currency
 			)}
 			gainPerc={`${
 				Math.round(
-					Math.abs((getRelativeValue(currEntry) / getRelativeValue(oldestEntry) - 1) * 100) * 100
+					Math.abs(((getAbsoluteGain(currEntry)- getAbsoluteGain(oldestEntry))/oldestEntry.invested_capital) * 100) * 100
 				) / 100
 			}%`}
-			profit={getRelativeValue(currEntry) > getRelativeValue(oldestEntry)}
+			profit={getAbsoluteGain(currEntry) > getAbsoluteGain(oldestEntry)}
 			datestring={dateToStr(crosshairTime)}
 		/>
 		<DurationSelectorWrapper
@@ -150,7 +149,7 @@
 			{onCrosshairMove}
 			{onTimeScaleChanged}
 			bind:this={chart}
-			profit={getRelativeValue(newestEntry) > getRelativeValue(oldestEntry)}
+			profit={getAbsoluteGain(newestEntry) > getAbsoluteGain(oldestEntry)}
 		/>
 	</div>
 	<div class="invenstment-wrapper">
