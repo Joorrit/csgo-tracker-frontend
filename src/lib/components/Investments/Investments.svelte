@@ -16,10 +16,10 @@
 	$: $currency, updateElements();
 	function updateElements() {
 		elements = [
-			{ title: 'Tagestrend (%)', value: 'day-trend-perc' },
-			{ title: `Tagestrend (${currToSymbol($currency)})`, value: 'day-trend' },
-			{ title: 'Seit Kauf (%)', value: 'total-trend-perc' },
-			{ title: `Seit Kauf (${currToSymbol($currency)})`, value: 'total-trend' }
+			{ title: 'Today (%)', value: 'day-trend-perc' },
+			{ title: `Today (${currToSymbol($currency)})`, value: 'day-trend' },
+			{ title: 'Since Purchase (%)', value: 'total-trend-perc' },
+			{ title: `Since Purchase (${currToSymbol($currency)})`, value: 'total-trend' }
 		];
 	}
 	let elements: DropDownElement[] = [];

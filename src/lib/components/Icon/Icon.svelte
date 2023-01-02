@@ -14,7 +14,7 @@
 		margin-right: 0.5rem;
 		width: 5em;
 		height: 5rem;
-		margin-bottom: 2rem;
+		margin-bottom: 0rem;
 	}
 	.item-icon {
 		width: 100%;

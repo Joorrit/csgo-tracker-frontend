@@ -14,6 +14,7 @@
 	import PositionInformation from '$lib/components/ItemInformations/ItemInformations.svelte';
 	import OrderHistory from '$lib/components/OrderHistory/OrderHistory.svelte';
 	import SiteWrapper from '$lib/components/SiteWrapper/SiteWrapper.svelte';
+	import BuySellButtons from '$lib/components/BuySellButtons/BuySellButtons.svelte';
 	$: $currency, convAllCurr();
 
 	function convAllCurr() {
@@ -132,15 +133,17 @@
 
 <div class="wrapper">
 	<div class="table-wrapper" id="table-wrapper">
-		<Icon name={itemData.name} icon_url={itemData.icon_url} />
-		<PortfolioElem
-			title={itemData?.name}
-			value={priceToStr(currCapital, $currency)}
-			gainValue={priceToStr(Math.abs(oldestCapital - currCapital), $currency)}
-			gainPerc={`${Math.round(Math.abs((currCapital / oldestCapital - 1) * 100) * 100) / 100}%`}
-			profit={currCapital > oldestCapital}
-			datestring={dateToStr(crosshairTime)}
-		/>
+		<div style="display: flex; flex-direction: row; gap: 2rem">
+			<Icon name={itemData.name} icon_url={itemData.icon_url} />
+			<PortfolioElem
+				title={itemData?.name}
+				value={priceToStr(currCapital, $currency)}
+				gainValue={priceToStr(Math.abs(oldestCapital - currCapital), $currency)}
+				gainPerc={`${Math.round(Math.abs((currCapital / oldestCapital - 1) * 100) * 100) / 100}%`}
+				profit={currCapital > oldestCapital}
+				datestring={dateToStr(crosshairTime)}
+			/>
+		</div>
 		<DurationSelectorWrapper
 			{onClick1Day}
 			{onClick1Week}
@@ -157,6 +160,9 @@
 			bind:this={chart}
 			profit={newestCapital > oldestCapital}
 		/>
+		<div style="margin-top:2rem;">
+			<BuySellButtons/>
+		</div>
 	</div>
 	<div class="informations-wrapper">
 		<div class="investment-wrapper">
@@ -165,6 +171,7 @@
 				positionValue={itemPositionInformation.position_size * itemPositionInformation.current_price}
 				purchasePrice={itemPositionInformation.purchase_price}
 				currentPrice={itemPositionInformation.current_price}
+				currentHighestBargainPrice={itemPositionInformation.current_highest_bargain_price}
 				portfolioValue={portfolioValue}
 			/>
 		</div>

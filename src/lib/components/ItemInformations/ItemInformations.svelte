@@ -8,7 +8,7 @@
 	export let positionValue: number;
 	export let purchasePrice: number;
 	export let currentPrice: number;
-    console.log(portfolioValue, positionSize, positionValue, purchasePrice, currentPrice)
+	export let currentHighestBargainPrice: number;
 </script>
 
 <div class="wrapper">
@@ -35,9 +35,13 @@
 			<span class="sub-title">Anzahl</span>
 			<span class="value">{positionSize}</span>
 		</div>
-		<div class="title-value-container">
+		<div class="title-value-container" style="flex:1.5">
 			<span class="sub-title">Buy in</span>
 			<span class="value">{priceToStr(convCurr(purchasePrice, $currency), $currency)}</span>
+		</div>
+		<div class="title-value-container" style="flex:2">
+			<span class="sub-title">Highest Bid</span>
+			<span class="value">{priceToStr(convCurr(currentHighestBargainPrice, $currency), $currency)}</span>
 		</div>
 	</div>
 </div>
@@ -84,11 +88,11 @@
 	.value-wrapper {
 		display: flex;
         justify-content: space-between;
+		gap: 1rem;
 	}
 	.title-value-container {
 		display: flex;
 		flex-direction: column;
-		margin-right: 2rem;
-        flex: 1;
+		margin-right: 1rem;
 	}
 </style>

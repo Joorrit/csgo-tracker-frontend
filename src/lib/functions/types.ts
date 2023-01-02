@@ -28,6 +28,7 @@ export type PositionInformationEntry = {
 	item: ItemEntry;
 	position_size: number;
 	current_price: number;
+	current_highest_bargain_price: number;
 	prev_day_price: number;
 	purchase_price: number;
 };
