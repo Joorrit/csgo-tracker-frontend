@@ -133,7 +133,7 @@
 
 <div class="wrapper">
 	<div class="table-wrapper" id="table-wrapper">
-		<div style="display: flex; flex-direction: row; gap: 2rem">
+		<div style="display: flex; flex-direction: row; gap: 1rem">
 			<Icon name={itemData.name} icon_url={itemData.icon_url} />
 			<PortfolioElem
 				title={itemData?.name}
