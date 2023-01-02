@@ -129,7 +129,7 @@
 			)}
 			gainPerc={`${
 				Math.round(
-					Math.abs(((getAbsoluteGain(currEntry)- getAbsoluteGain(oldestEntry))/oldestEntry.invested_capital) * 100) * 100
+					Math.abs(((getAbsoluteGain(currEntry)- getAbsoluteGain(oldestEntry))/currEntry.invested_capital) * 100) * 100
 				) / 100
 			}%`}
 			profit={getAbsoluteGain(currEntry) > getAbsoluteGain(oldestEntry)}
@@ -164,6 +164,7 @@
 	.wrapper {
 		display: flex;
 		justify-content: space-between;
+		gap: 2rem;
 		/* height: auto; */
 	}
 	@media only screen and (max-width: 1200px) {

@@ -4,13 +4,15 @@
 		ItemEntry,
 		ItemPrice,
 		ItemPriceHistory,
-		PositionInformationEntry
+		PositionInformationEntry,
+		OrderHistoryArray,
 	} from '$lib/functions/types';
 	import { currency } from '$lib/functions/stores';
 	import { convCurr, priceToStr, dateToStr } from '$lib/functions/utils';
 	import { DurationSelectorWrapper, Icon, PortfolioElem } from '$lib/components';
 	import PriceChart from '$lib/components/Chart/PriceChart.svelte';
 	import PositionInformation from '$lib/components/ItemInformations/ItemInformations.svelte';
+	import OrderHistory from '$lib/components/OrderHistory/OrderHistory.svelte';
 	$: $currency, convAllCurr();
 
 	function convAllCurr() {
@@ -23,6 +25,8 @@
 
 	let chart: any;
 	let selectedDurationIndex = 5;
+	const orderHistoryData: OrderHistoryArray = data.itemPositionInformation.order_history;
+	console.log(orderHistoryData)
 	const itemPositionInformation: PositionInformationEntry = data.itemPositionInformation;
 	const itemData: ItemEntry = itemPositionInformation.item;
 	const itemPriceHistoryData: ItemPriceHistory = data.itemPriceHistory.data;
@@ -153,14 +157,19 @@
 			profit={newestCapital > oldestCapital}
 		/>
 	</div>
-	<div class="invenstment-wrapper">
-		<PositionInformation
-			positionSize={itemPositionInformation.position_size}
-			positionValue={itemPositionInformation.position_size * itemPositionInformation.current_price}
-			purchasePrice={itemPositionInformation.purchase_price}
-			currentPrice={itemPositionInformation.current_price}
-			portfolioValue={portfolioValue}
-		/>
+	<div class="informations-wrapper">
+		<div class="investment-wrapper">
+			<PositionInformation
+				positionSize={itemPositionInformation.position_size}
+				positionValue={itemPositionInformation.position_size * itemPositionInformation.current_price}
+				purchasePrice={itemPositionInformation.purchase_price}
+				currentPrice={itemPositionInformation.current_price}
+				portfolioValue={portfolioValue}
+			/>
+		</div>
+		<div class="order-history-wrapper">
+			<OrderHistory orderHistory={orderHistoryData} />
+		</div>
 	</div>
 </div>
 
@@ -177,15 +186,25 @@
 		}
 	}
 	.table-wrapper {
-		flex: 2;
+		flex: 2.5;
 		overflow: hidden;
 		margin-top: var(--main-padding-top);
 	}
-	.invenstment-wrapper {
+	.investment-wrapper {
 		flex: 1;
+	}
+	.order-history-wrapper {
+		flex: 1;
+	}
+	.informations-wrapper {
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+		gap: 2rem;
 		position: -webkit-sticky;
 		position: sticky;
 		top: var(--header-height);
 		height: 0;
+		margin: var(--main-padding-top) 0.5rem;
 	}
 </style>

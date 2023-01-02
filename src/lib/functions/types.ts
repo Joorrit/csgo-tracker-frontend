@@ -59,3 +59,11 @@ export type ItemPriceHistoryRes = {
 export type ItemRes = {
 	data: ItemEntry;
 };
+
+export type OrderHistoryEntry = {
+	order_type: string;
+	quantity: number;
+	timestamp: any;
+	item_price: number;
+};
+export type OrderHistoryArray = Array<OrderHistoryEntry>;
