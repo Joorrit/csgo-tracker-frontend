@@ -152,7 +152,7 @@
 			profit={getAbsoluteGain(newestEntry) > getAbsoluteGain(oldestEntry)}
 		/>
 	</div>
-	<div class="invenstment-wrapper">
+	<div class="investment-wrapper">
 		<Investments
 			positionsInformation={positionsInformationData}
 			current_liquid_funds={currEntry.liquid_funds}
@@ -177,7 +177,7 @@
 		overflow: hidden;
 		margin-top: var(--main-padding-top);
 	}
-	.invenstment-wrapper {
+	.investment-wrapper {
 		grid-row: 1 / span 3;
 		grid-column: 2;
 		position: -webkit-sticky;

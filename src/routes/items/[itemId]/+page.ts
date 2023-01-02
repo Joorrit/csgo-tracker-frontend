@@ -25,6 +25,6 @@ export const load = (async ({ params }: any) => {
 	return {
 		itemPriceHistory: itemPriceHistoryFetchedData,
 		itemPositionInformation: itemPositionInformationFetchedData,
-		inventoryValue: inventoryValueFetchedData
+		inventoryValue: inventoryValueFetchedData,
 	};
 }) satisfies PageLoad;

@@ -13,6 +13,7 @@
 	import PriceChart from '$lib/components/Chart/PriceChart.svelte';
 	import PositionInformation from '$lib/components/ItemInformations/ItemInformations.svelte';
 	import OrderHistory from '$lib/components/OrderHistory/OrderHistory.svelte';
+	import SiteWrapper from '$lib/components/SiteWrapper/SiteWrapper.svelte';
 	$: $currency, convAllCurr();
 
 	function convAllCurr() {
@@ -204,7 +205,7 @@
 		position: -webkit-sticky;
 		position: sticky;
 		top: var(--header-height);
-		height: 0;
+		height: auto;
 		margin: var(--main-padding-top) 0.5rem;
 	}
 </style>

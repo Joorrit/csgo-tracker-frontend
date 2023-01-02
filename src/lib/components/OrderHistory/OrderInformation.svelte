@@ -20,7 +20,7 @@
 	.item-wrapper {
 		display: flex;
 		align-items: center;
-		padding: 0.4rem 1.5rem;
+		padding: 0.4rem 0rem;
 		font-size: 0.9rem;
 		text-decoration: none;
         gap: 0.5rem;

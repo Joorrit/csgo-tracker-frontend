@@ -9,7 +9,7 @@
 		min-width: 6rem;
 		min-height: 6rem;
 		overflow-y: auto;
-		height: auto;
+		height: calc(100vh - var(--header-height));
 	}
 
 	@media only screen and (max-width: 1200px) {
