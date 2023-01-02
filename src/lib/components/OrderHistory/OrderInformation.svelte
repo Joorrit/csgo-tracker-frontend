@@ -31,7 +31,7 @@
 	.item-price {
 		font-size: 0.8rem;
 		font-weight: bold;
-        flex: 0.2;
+        flex: 0.22;
 	}
     .order-type {
         font-size: 0.8rem;

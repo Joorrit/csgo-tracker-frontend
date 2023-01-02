@@ -187,7 +187,7 @@
 		}
 	}
 	.table-wrapper {
-		flex: 2.5;
+		flex: 2.3;
 		overflow: hidden;
 		margin-top: var(--main-padding-top);
 	}

@@ -15,7 +15,7 @@
     </div>
     <div class="column-titles">
         <div style="flex:0.15">Qty</div>
-        <div style="flex:0.2">Price</div>
+        <div style="flex:0.22">Price</div>
         <div style="flex:0.5">Timestamp</div>
         <div style="flex:0.1">Type</div>
     </div>
