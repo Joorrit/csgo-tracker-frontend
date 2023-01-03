@@ -160,23 +160,26 @@
 			bind:this={chart}
 			profit={newestCapital > oldestCapital}
 		/>
-		<div style="margin-top:2rem;">
-			<BuySellButtons/>
-		</div>
+		
 	</div>
-	<div class="informations-wrapper">
-		<div class="investment-wrapper">
-			<PositionInformation
-				positionSize={itemPositionInformation.position_size}
-				positionValue={itemPositionInformation.position_size * itemPositionInformation.current_price}
-				purchasePrice={itemPositionInformation.purchase_price}
-				currentPrice={itemPositionInformation.current_price}
-				currentHighestBargainPrice={itemPositionInformation.current_highest_bargain_price}
-				portfolioValue={portfolioValue}
-			/>
+	<div class="informations-buttons">
+		<div class="informations-wrapper">
+			<div class="investment-wrapper">
+				<PositionInformation
+					positionSize={itemPositionInformation.position_size}
+					positionValue={itemPositionInformation.position_size * itemPositionInformation.current_price}
+					purchasePrice={itemPositionInformation.purchase_price}
+					currentPrice={itemPositionInformation.current_price}
+					currentHighestBargainPrice={itemPositionInformation.current_highest_bargain_price}
+					portfolioValue={portfolioValue}
+				/>
+			</div>
+			<div class="order-history-wrapper">
+				<OrderHistory orderHistory={orderHistoryData} />
+			</div>
 		</div>
-		<div class="order-history-wrapper">
-			<OrderHistory orderHistory={orderHistoryData} />
+		<div>
+			<BuySellButtons/>
 		</div>
 	</div>
 </div>
@@ -208,11 +211,29 @@
 		display: flex;
 		flex-direction: column;
 		flex: 1;
-		gap: 2rem;
+		gap: 1.5rem;
 		position: -webkit-sticky;
 		position: sticky;
 		top: var(--header-height);
 		height: auto;
-		margin: var(--main-padding-top) 0.5rem;
+		margin-top: var(--main-padding-top);
+	}
+	@media only screen and (max-width: 1200px) {
+		.informations-wrapper {
+			position: relative;
+			top: 0;
+			margin-top: 0;
+		}
+	}
+	.informations-buttons {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+		flex: 1;
+	}
+	@media only screen and (max-width: 1200px) {
+		.informations-buttons {
+			flex-direction: column-reverse;
+		}
 	}
 </style>

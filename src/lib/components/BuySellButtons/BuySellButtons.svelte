@@ -15,7 +15,6 @@
         flex-direction: row;
         justify-content: space-evenly;
         gap: 2rem;
-        margin-top: 1rem;
     }
     .buy-button{
         background-color: var(--color-pos);
