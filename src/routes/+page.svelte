@@ -156,6 +156,7 @@
 		<Investments
 			positionsInformation={positionsInformationData}
 			current_liquid_funds={currEntry.liquid_funds}
+			portfolio_value={currEntry.inventory_value + currEntry.liquid_funds}
 		/>
 	</div>
 </div>
