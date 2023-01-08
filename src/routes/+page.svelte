@@ -129,7 +129,8 @@
 			)}
 			gainPerc={`${
 				Math.round(
-					Math.abs(((getAbsoluteGain(currEntry)- getAbsoluteGain(oldestEntry))/currEntry.invested_capital) * 100) * 100
+					//Math.abs(((getAbsoluteGain(currEntry)- getAbsoluteGain(oldestEntry))/(oldestEntry.inventory_value + oldestEntry.liquid_funds + currEntry.invested_capital - oldestEntry.invested_capital)) * 100) * 100
+					Math.abs((((currEntry.inventory_value + currEntry.liquid_funds)/(currEntry.inventory_value + currEntry.liquid_funds - getAbsoluteGain(currEntry)+getAbsoluteGain(oldestEntry)))-1) * 100 * 100)
 				) / 100
 			}%`}
 			profit={getAbsoluteGain(currEntry) > getAbsoluteGain(oldestEntry)}
