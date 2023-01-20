@@ -68,7 +68,10 @@
 				tickMarkFormatter: (time: any) => {
 					const date = new Date(time * 1000);
 					return `${date.getHours()}:${addLeadinZero(date.getMinutes())}`;
-				}
+				},
+				lockVisibleTimeRangeOnResize: true,
+				fixLeftEdge: true,
+				fixRightEdge: true
 			}
 		});
 
