@@ -45,3 +45,9 @@ export const getRelativeValue = (inventoryValue: InventoryValueHistoryEntry) => 
 		(inventoryValue.inventory_value + inventoryValue.liquid_funds) / inventoryValue.invested_capital
 	);
 };
+
+export const getAbsoluteGain = (inventoryValue: InventoryValueHistoryEntry) => {
+	return (
+		(inventoryValue.inventory_value + inventoryValue.liquid_funds) - inventoryValue.invested_capital
+	);
+}

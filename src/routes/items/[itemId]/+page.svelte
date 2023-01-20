@@ -4,13 +4,17 @@
 		ItemEntry,
 		ItemPrice,
 		ItemPriceHistory,
-		PositionInformationEntry
+		PositionInformationEntry,
+		OrderHistoryArray,
 	} from '$lib/functions/types';
 	import { currency } from '$lib/functions/stores';
 	import { convCurr, priceToStr, dateToStr } from '$lib/functions/utils';
 	import { DurationSelectorWrapper, Icon, PortfolioElem } from '$lib/components';
 	import PriceChart from '$lib/components/Chart/PriceChart.svelte';
 	import PositionInformation from '$lib/components/ItemInformations/ItemInformations.svelte';
+	import OrderHistory from '$lib/components/OrderHistory/OrderHistory.svelte';
+	import SiteWrapper from '$lib/components/SiteWrapper/SiteWrapper.svelte';
+	import BuySellButtons from '$lib/components/BuySellButtons/BuySellButtons.svelte';
 	$: $currency, convAllCurr();
 
 	function convAllCurr() {
@@ -23,9 +27,12 @@
 
 	let chart: any;
 	let selectedDurationIndex = 5;
+	const orderHistoryData: OrderHistoryArray = data.itemPositionInformation.order_history;
+	console.log(orderHistoryData)
 	const itemPositionInformation: PositionInformationEntry = data.itemPositionInformation;
 	const itemData: ItemEntry = itemPositionInformation.item;
 	const itemPriceHistoryData: ItemPriceHistory = data.itemPriceHistory.data;
+	const portfolioValue = data.inventoryValue.data[data.inventoryValue.data.length - 1].inventory_value + data.inventoryValue.data[data.inventoryValue.data.length - 1].liquid_funds;
 	const chartData = itemPriceHistoryData.map((item: ItemPrice) => {
 		const unixTimestamp = (new Date(item.timestamp).getTime() / 1000) as UTCTimestamp;
 		return {
@@ -126,15 +133,17 @@
 
 <div class="wrapper">
 	<div class="table-wrapper" id="table-wrapper">
-		<Icon name={itemData.name} icon_url={itemData.icon_url} />
-		<PortfolioElem
-			title={itemData?.name}
-			value={priceToStr(currCapital, $currency)}
-			gainValue={priceToStr(Math.abs(oldestCapital - currCapital), $currency)}
-			gainPerc={`${Math.round(Math.abs((currCapital / oldestCapital - 1) * 100) * 100) / 100}%`}
-			profit={currCapital > oldestCapital}
-			datestring={dateToStr(crosshairTime)}
-		/>
+		<div style="display: flex; flex-direction: row; gap: 1rem">
+			<Icon name={itemData.name} icon_url={itemData.icon_url} />
+			<PortfolioElem
+				title={itemData?.name}
+				value={priceToStr(currCapital, $currency)}
+				gainValue={priceToStr(Math.abs(oldestCapital - currCapital), $currency)}
+				gainPerc={`${Math.round(Math.abs((currCapital / oldestCapital - 1) * 100) * 100) / 100}%`}
+				profit={currCapital > oldestCapital}
+				datestring={dateToStr(crosshairTime)}
+			/>
+		</div>
 		<DurationSelectorWrapper
 			{onClick1Day}
 			{onClick1Week}
@@ -151,14 +160,27 @@
 			bind:this={chart}
 			profit={newestCapital > oldestCapital}
 		/>
+		
 	</div>
-	<div class="invenstment-wrapper">
-		<PositionInformation
-			positionSize={itemPositionInformation.position_size}
-			positionValue={itemPositionInformation.position_size * itemPositionInformation.current_price}
-			purchasePrice={itemPositionInformation.purchase_price}
-			currentPrice={itemPositionInformation.current_price}
-		/>
+	<div class="informations-buttons">
+		<div class="informations-wrapper">
+			<div class="investment-wrapper">
+				<PositionInformation
+					positionSize={itemPositionInformation.position_size}
+					positionValue={itemPositionInformation.position_size * itemPositionInformation.current_price}
+					purchasePrice={itemPositionInformation.purchase_price}
+					currentPrice={itemPositionInformation.current_price}
+					currentHighestBargainPrice={itemPositionInformation.current_highest_bargain_price}
+					portfolioValue={portfolioValue}
+				/>
+			</div>
+			<div class="order-history-wrapper">
+				<OrderHistory orderHistory={orderHistoryData} />
+			</div>
+		</div>
+		<div>
+			<BuySellButtons/>
+		</div>
 	</div>
 </div>
 
@@ -175,15 +197,43 @@
 		}
 	}
 	.table-wrapper {
-		flex: 2;
+		flex: 2.3;
 		overflow: hidden;
 		margin-top: var(--main-padding-top);
 	}
-	.invenstment-wrapper {
+	.investment-wrapper {
 		flex: 1;
+	}
+	.order-history-wrapper {
+		flex: 1;
+	}
+	.informations-wrapper {
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+		gap: 1.5rem;
 		position: -webkit-sticky;
 		position: sticky;
 		top: var(--header-height);
-		height: 0;
+		height: auto;
+		margin-top: var(--main-padding-top);
+	}
+	@media only screen and (max-width: 1200px) {
+		.informations-wrapper {
+			position: relative;
+			top: 0;
+			margin-top: 0;
+		}
+	}
+	.informations-buttons {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+		flex: 1;
+	}
+	@media only screen and (max-width: 1200px) {
+		.informations-buttons {
+			flex-direction: column-reverse;
+		}
 	}
 </style>

@@ -2,7 +2,7 @@
 	import { currency } from '$lib/functions/stores';
 	import { convCurr, gainToStr, priceToStr } from '$lib/functions/utils';
 
-	export let displayType: 'day-trend-perc' | 'day-trend' | 'total-trend-perc' | 'total-trend';
+	export let displayType: 'day-trend-perc' | 'day-trend' | 'total-trend-perc' | 'total-trend' | 'portf-perc';
 	export let name: string;
 	export let icon_url: string;
 	export let item_id: string;
@@ -10,6 +10,7 @@
 	export let purchase_price: number;
 	export let current_price: number;
 	export let prev_day_price: number;
+	export let portfolio_value: number;
 </script>
 
 <a href={`/items/${item_id}`} class="item-wrapper">
@@ -41,6 +42,11 @@
 	{#if displayType === 'total-trend'}
 		<div class={`gain ${current_price - purchase_price >= 0 ? 'positive-gain' : 'negative-gain'}`}>
 			{priceToStr(convCurr((current_price - purchase_price)*position_size, $currency), $currency)}
+		</div>
+	{/if}
+	{#if displayType === 'portf-perc'}
+		<div class={'gain'}>
+			{gainToStr((current_price*position_size/portfolio_value*100))}
 		</div>
 	{/if}
 </a>

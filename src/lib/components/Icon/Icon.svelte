@@ -12,9 +12,11 @@
 		background-color: #f8fafd1a;
 		border-radius: 50%;
 		margin-right: 0.5rem;
-		width: 5em;
-		height: 5rem;
-		margin-bottom: 2rem;
+		width: auto;
+		max-width: 5rem;
+		height: auto;
+		max-height: 5rem;
+		margin-bottom: 0rem;
 	}
 	.item-icon {
 		width: 100%;

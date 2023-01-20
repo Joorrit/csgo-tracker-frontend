@@ -3,42 +3,59 @@
 	import { currency } from '$lib/functions/stores';
 	import { convCurr, gainToStr, priceToStr } from '$lib/functions/utils';
 
+    export let portfolioValue: number;
 	export let positionSize: number;
 	export let positionValue: number;
 	export let purchasePrice: number;
 	export let currentPrice: number;
+	export let currentHighestBargainPrice: number;
 </script>
 
-<SiteWrapper>
-	<div class="wrapper">
-		<span class="title">Depot</span>
-		<span class="sub-title">Gesamt</span>
-		<span class="total-value">{priceToStr(convCurr(positionValue, $currency), $currency)}</span>
-		<span class="sub-title">Performance</span>
-		<span
-			class={`total-value ${currentPrice - purchasePrice >= 0 ? 'positive-gain' : 'negative-gain'}`}
-			>{priceToStr(convCurr((currentPrice - purchasePrice) * positionSize, $currency), $currency)} ({gainToStr(
-				(currentPrice / purchasePrice - 1) * 100
-			)})</span
-		>
-		<div class="value-wrapper">
-			<div class="title-value-container">
-				<span class="sub-title">Anzahl</span>
-				<span class="value">{positionSize}</span>
-			</div>
-			<div class="title-value-container">
-				<span class="sub-title">Buy in</span>
-				<span class="value">{priceToStr(convCurr(purchasePrice, $currency), $currency)}</span>
-			</div>
+<div class="wrapper">
+	<span class="title">Depot</span>
+	<div class='value-wrapper'>
+		<div class='title-value-container'>
+			<span class="sub-title">Gesamt</span>
+			<span class="total-value">{priceToStr(convCurr(positionValue, $currency), $currency)}</span>
+		</div>
+		<div class='title-value-container'>
+			<span class='sub-title'>%Portf.</span>
+			<span class="total-value">{gainToStr(positionValue/portfolioValue*100)}</span>
 		</div>
 	</div>
-</SiteWrapper>
+	<span class="sub-title">Performance</span>
+	<span
+		class={`total-value ${currentPrice - purchasePrice >= 0 ? 'positive-gain' : 'negative-gain'}`}
+		>{priceToStr(convCurr((currentPrice - purchasePrice) * positionSize, $currency), $currency)} ({gainToStr(
+			(currentPrice / purchasePrice - 1) * 100
+		)})</span
+	>
+	<div class="value-wrapper">
+		<div class="title-value-container">
+			<span class="sub-title">Anzahl</span>
+			<span class="value">{positionSize}</span>
+		</div>
+		<div class="title-value-container" style="flex:1.5">
+			<span class="sub-title">Buy in</span>
+			<span class="value">{priceToStr(convCurr(purchasePrice, $currency), $currency)}</span>
+		</div>
+		<div class="title-value-container" style="flex:2">
+			<span class="sub-title">Highest Bid</span>
+			<span class="value">{priceToStr(convCurr(currentHighestBargainPrice, $currency), $currency)}</span>
+		</div>
+	</div>
+</div>
+
 
 <style>
 	.wrapper {
 		display: flex;
 		flex-direction: column;
-		margin: 0 1.5rem;
+		display: flex;
+		flex-direction: column;
+		background-color: #2e2e2e;
+		padding: 1.5rem 1.5rem;
+		border-radius: 10px;
 	}
 	.title {
 		font-weight: 600;
@@ -70,6 +87,8 @@
 	}
 	.value-wrapper {
 		display: flex;
+        justify-content: space-between;
+		gap: 1rem;
 	}
 	.title-value-container {
 		display: flex;

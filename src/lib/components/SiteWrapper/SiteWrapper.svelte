@@ -8,8 +8,8 @@
 	.wrapper {
 		min-width: 6rem;
 		min-height: 6rem;
-		height: calc(100vh - var(--header-height));
 		overflow-y: auto;
+		height: calc(100vh - var(--header-height));
 	}
 
 	@media only screen and (max-width: 1200px) {
@@ -42,6 +42,5 @@
 		background-color: #2e2e2e;
 		padding: 1.5rem 0;
 		border-radius: 10px;
-		margin: var(--main-padding-top) 0.5rem;
 	}
 </style>

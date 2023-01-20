@@ -28,6 +28,7 @@ export type PositionInformationEntry = {
 	item: ItemEntry;
 	position_size: number;
 	current_price: number;
+	current_highest_bargain_price: number;
 	prev_day_price: number;
 	purchase_price: number;
 };
@@ -59,3 +60,11 @@ export type ItemPriceHistoryRes = {
 export type ItemRes = {
 	data: ItemEntry;
 };
+
+export type OrderHistoryEntry = {
+	order_type: string;
+	quantity: number;
+	timestamp: any;
+	item_price: number;
+};
+export type OrderHistoryArray = Array<OrderHistoryEntry>;
