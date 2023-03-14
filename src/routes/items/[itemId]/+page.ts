@@ -6,18 +6,18 @@ export const ssr = false;
 
 export const load = (async ({ params }: any) => {
 	const itemPriceHistoryRes = await fetch(
-		`https://joorrit.de/api/items/${params.itemId}/price_history`
+		`https://csgo.joorrit.de/api/items/${params.itemId}/price_history`
 	);
-	const inventoryValueRes = await fetch(`https://joorrit.de/api/inventory/inventory_value_history`);
+	const inventoryValueRes = await fetch(`https://csgo.joorrit.de/api/inventory/inventory_value_history`);
 	const inventoryValueFetchedData: InventoryValueHistoryRes = await inventoryValueRes.json();
 	const itemPriceHistoryFetchedData: ItemPriceHistoryRes = await itemPriceHistoryRes.json();
 	const itemPositionInformationRes = await fetch(
-		`https://joorrit.de/api/inventory/positions_information/${params.itemId}`
+		`https://csgo.joorrit.de/api/inventory/positions_information/${params.itemId}`
 	);
 	const itemPositionInformationFetchedData: PositionInformationEntry =
 		await itemPositionInformationRes.json();
 
-	const exchangeRateRes = await fetch('https://joorrit.de/api/exchange_rate');
+	const exchangeRateRes = await fetch('https://csgo.joorrit.de/api/exchange_rate');
 	const exchangeRateFetchedData = await exchangeRateRes.json();
 	const exchangeRateVal = exchangeRateFetchedData.data;
 	exchangeRate.set(exchangeRateVal);
