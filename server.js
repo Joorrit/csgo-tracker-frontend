@@ -21,7 +21,7 @@ app.use(passport.session());
 passport.use(new SteamStrategy({
     returnURL: 'http://localhost:5174/auth/steam/return',
     realm: 'http://localhost:5174',
-    apiKey: 'F582BA6280A775DB0679469BD69A83B2'  // You will need to get this from the Steam API
+    apiKey: 'apikey'  // You will need to get this from the Steam API
   },
   function(identifier, profile, done) {
     process.nextTick(function () {
