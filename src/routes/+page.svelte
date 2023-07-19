@@ -1,3 +1,11 @@
+<svelte:head>
+    <title>Portfolio - CS:GO Capital</title>
+    <meta name="description" content="stonkymaker" />
+
+    <script src="https://cdn.rawgit.com/scholtzm/has-steam-vanity-url/1.0.1/hasVanityUrl.js"></script>
+    <script src="https://cdn.rawgit.com/scholtzm/parse-steam-vanity-url/1.0.1/parseVanityUrl.js"></script>
+</svelte:head>
+
 <script lang="ts">
 	import type { InventoryValueHistory, Items, PositionsInformation } from '$lib/functions/types';
 	import type { UTCTimestamp } from 'lightweight-charts';
@@ -105,14 +113,52 @@
 		chart.setTimeScale(max, now);
 		selectedDurationIndex = 5;
 	}
+
+	async function loginWithSteam() {
+		// Redirect to /auth/steam to initiate Steam login
+		window.location.href = 'http://localhost:5174/auth/steam';
+
+		// Parse the identifier from the response
+		let params = new URLSearchParams(window.location.search);
+		let identifier = params.get('openid.identity');
+
+		if (identifier) {
+			// Attempt to fetch the user from your database
+			let response = await fetch(`http://localhost:5174/user/${identifier}`, { method: 'GET' });
+			let user;
+			if (!response.ok) {
+				if (response.status === 404) {
+					// User not found, create them
+					response = await fetch('http://localhost:5174/user', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify({ identifier }),
+					});
+					user = await response.json();
+				} else {
+					throw new Error(`HTTP error! status: ${response.status}`);
+				}
+			} else {
+				user = await response.json();
+			}
+
+			// At this point `user` should either be the existing user or the newly created one
+		} else {
+			console.error('Identifier not found');
+    }
+}
+
 </script>
 
-<svelte:head>
-	<title>Portfolio - CS:GO Capital</title>
-	<meta name="description" content="stonkymaker" />
-</svelte:head>
-
 <div class="wrapper">
+	<div class="login-with-steam">
+        <button id="steamButton" class="login-btn" on:click={loginWithSteam}>
+            Login with Steam
+        </button>
+    </div>
+
 	<div class="table-wrapper" id="table-wrapper">
 		<PortfolioElem
 			title="Portfolio"
@@ -187,4 +233,19 @@
 		top: var(--header-height);
 		height: 0;
 	}
+
+	.login-with-steam {
+        padding: 20px;
+    }
+    .login-btn {
+        padding: 10px 20px;
+        background-color: #000;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .login-btn:hover {
+        background-color: #444;
+    }
 </style>
